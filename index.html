@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ทอชีวิตเป็นผืนเสื่อ · สมเด็จพระนางเจ้ารำไพพรรณี พระบรมราชินี</title>
+<meta name="description" content="นิทรรศการออนไลน์แบบอินเทอร์แอกทีฟ เล่าพระราชประวัติสมเด็จพระนางเจ้ารำไพพรรณี พระบรมราชินี ผ่านเส้นเวลา แผนที่การเดินทาง กี่ทอเสื่อจันทบูร และเกม">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Trirong:ital,wght@0,300;0,500;0,600;1,400&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ระบบออกแบบ — "ผืนเสื่อ"
+   warp (เส้นยืน) = เวลา · weft (เส้นนอน) = สถานที่
+   ============================================================ */
+:root{
+  --reed:#F7F0E1; --reed-2:#EFE3CB; --reed-3:#E4D5B7;
+  --ink:#17241D; --ink-soft:#3B4C42;
+  --green:#234C3A; --green-solid:#143224;
+  --gold:#A87C21; --gold-lite:#D6AE4E;
+  --teak:#8A5A2B; --ruby:#93332F;
+  --paper:#FFFDF7; --line:rgba(20,50,36,.16);
+
+  --bg:var(--reed); --surface:var(--paper); --text:var(--ink);
+  --text-2:var(--ink-soft); --accent:var(--gold); --brand:var(--green-solid);
+
+  /* บทบาทตัวอักษร — สลับสองบรรทัดนี้ก็สลับทั้งเว็บ */
+  --font-display:"IBM Plex Sans Thai",system-ui,sans-serif;
+  --font-body:"Trirong",Georgia,serif;
+
+  --step--1:clamp(.85rem,.82rem + .15vw,.95rem);
+  --step-0:clamp(1.04rem,1rem + .2vw,1.16rem);
+  --step-1:clamp(1.2rem,1.1rem + .5vw,1.5rem);
+  --step-2:clamp(1.5rem,1.3rem + 1vw,2.1rem);
+  --step-3:clamp(2rem,1.6rem + 2vw,3.2rem);
+  --step-4:clamp(2.6rem,1.8rem + 4vw,5.4rem);
+
+  --gap:clamp(1rem,.6rem + 1.6vw,2rem);
+  --pad:clamp(1.1rem,.7rem + 1.8vw,2.4rem);
+  --shell:min(1200px,100% - 2*var(--pad));
+  --r-s:4px; --r-m:10px; --r-l:18px;
+  --shadow:0 1px 2px rgba(20,50,36,.06),0 12px 32px -18px rgba(20,50,36,.35);
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+html[data-theme="dark"]{
+  --reed:#141E19; --reed-2:#1B2A22; --reed-3:#233329;
+  --paper:#1B2A22; --ink:#EEE3CC; --ink-soft:#B6C0B4;
+  --line:rgba(238,227,204,.18); --gold:#D6AE4E; --gold-lite:#E7C878;
+  --green-solid:#0E1F17; --ruby:#D2726C; --teak:#C29159;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 16px 40px -20px rgba(0,0,0,.8);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:var(--font-body);
+  font-size:var(--step-0);line-height:1.78;font-weight:400;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4,.display{font-family:var(--font-display);font-weight:500;line-height:1.22;letter-spacing:-.005em;margin:0}
+p{margin:0}
+a{color:inherit}
+img,svg,canvas{max-width:100%;display:block}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
+:focus-visible{outline:2.5px solid var(--gold);outline-offset:3px;border-radius:2px}
+.shell{width:var(--shell);margin-inline:auto}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:fixed;top:-100px;left:12px;z-index:99;background:var(--brand);color:var(--reed);padding:.7em 1.2em;border-radius:0 0 var(--r-m) var(--r-m);transition:top .2s}
+.skip:focus{top:0}
+
+/* ---------- ลายทอ (motif) ---------- */
+.weave-bg{
+  background-image:
+    repeating-linear-gradient(90deg,transparent 0 13px,var(--line) 13px 14px),
+    repeating-linear-gradient(0deg,transparent 0 13px,var(--line) 13px 14px);
+  background-size:14px 14px;
+}
+.rule{height:14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:repeating-linear-gradient(90deg,var(--gold) 0 6px,transparent 6px 20px);opacity:.5;margin-block:0}
+
+/* ---------- NAV ---------- */
+.topbar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--reed-2) 88%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar__in{width:var(--shell);margin-inline:auto;display:flex;align-items:center;gap:var(--gap);min-height:66px}
+.brand{display:flex;align-items:center;gap:.65rem;text-decoration:none;flex:0 0 auto}
+.brand__mark{width:42px;height:52px;background:var(--green-solid);border-radius:6px 6px 22px 22px;
+  display:grid;place-items:center;position:relative;box-shadow:var(--shadow)}
+.brand__mark::after{content:"";position:absolute;bottom:-9px;left:50%;translate:-50% 0;border:6px solid transparent;border-top-color:var(--green-solid)}
+.brand__mark span{font-family:var(--font-display);font-size:1.35rem;color:var(--gold-lite);line-height:1}
+.brand__txt{display:grid;gap:.1rem;line-height:1.2}
+.brand__txt b{font-family:var(--font-display);font-size:.96rem;font-weight:500;letter-spacing:.01em}
+.brand__txt small{font-family:var(--font-body);font-size:.68rem;color:var(--text-2);letter-spacing:.01em}
+.nav{display:flex;gap:.15rem;margin-inline-start:auto;flex-wrap:wrap}
+.nav a{text-decoration:none;font-size:var(--step--1);padding:.5em .78em;border-radius:var(--r-s);position:relative;white-space:nowrap;color:var(--text-2)}
+.nav a:hover{color:var(--text);background:color-mix(in srgb,var(--gold) 14%,transparent)}
+.nav a[aria-current="true"]{color:var(--text)}
+.nav a[aria-current="true"]::after{content:"";position:absolute;left:.78em;right:.78em;bottom:.25em;height:2px;background:var(--gold)}
+.tools{display:flex;align-items:stretch;gap:.4rem;flex:0 0 auto;height:29px}
+.tool{border:1px solid var(--line);border-radius:var(--r-s);padding:.42em .7em;font-size:.78rem;letter-spacing:.06em;
+  transition:background .2s var(--ease),border-color .2s var(--ease)}
+.tool:hover{background:var(--reed-3);border-color:var(--gold)}
+.tool--icon{width:29px;padding:0;display:grid;place-items:center}
+.tool--icon svg{width:15px;height:15px;fill:currentColor}
+.i-sun path{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+html[data-theme="dark"] .i-moon{display:none}
+html:not([data-theme="dark"]) .i-sun{display:none}
+.lang{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:var(--r-s);overflow:hidden}
+.lang button{display:flex;align-items:center;gap:.38rem;padding:0 .56em;font-size:.68rem;letter-spacing:.07em;
+  font-weight:600;color:var(--text-2);transition:background .2s var(--ease),color .2s var(--ease)}
+/* ข้อความไทยไม่ควรมี letter-spacing และต้องใหญ่กว่าตัวละตินเล็กน้อยจึงอ่านเท่ากัน */
+.lang button[lang="th"] span:not(.flag){letter-spacing:0;font-size:.8rem}
+.lang button:hover{background:color-mix(in srgb,var(--gold) 16%,transparent);color:var(--text)}
+.lang button[aria-pressed="true"]{background:var(--green-solid);color:var(--reed)}
+html[data-theme="dark"] .lang button[aria-pressed="true"]{background:var(--gold);color:#14201A}
+.flag{flex:0 0 auto;width:18px;height:12px;border-radius:2px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.22);
+  transition:filter .2s var(--ease),opacity .2s var(--ease)}
+.flag svg{width:100%;height:100%;display:block}
+.lang button[aria-pressed="false"] .flag{filter:grayscale(.9);opacity:.55}
+/* มือถือ: เหลือธงอย่างเดียว — ชื่อภาษาอยู่ใน aria-label ของปุ่ม */
+@media (max-width:640px){
+  .lang button span:not(.flag){display:none}
+  .lang button{padding:0 .6em}
+  .flag{width:22px;height:15px}
+  .tools{height:30px}
+  .tool--icon{width:30px}
+  /* ขยายพื้นที่แตะให้ยังกดง่าย แม้ปุ่มจะเตี้ยลง */
+  .lang button{position:relative}
+  .lang button::after{content:"";position:absolute;inset:-7px 0}
+}
+.navtoggle{display:none}
+.nav__theme{display:none}
+
+@media (max-width:940px){
+  /* จอเล็ก: เมนูซ้าย · ตราสัญลักษณ์กึ่งกลาง · เครื่องมือขวา
+     ให้สองข้างกว้างเท่ากัน (flex:1) ตราจึงอยู่กลางเสมอ */
+  .navtoggle{display:flex;align-items:center;gap:.35rem;order:-1;flex:1;
+    border:0;padding:.45em .3em .45em 0;font-size:var(--step-0)}
+  /* ปุ่มโหมดมืดย้ายลงไปอยู่ท้ายเมนู */
+  .tools .tool--icon{display:none}
+  .nav__theme{display:flex;align-items:center;gap:.75rem;width:100%;text-align:left;
+    margin-top:.6rem;padding:.75em .4em 0;border-top:1px solid var(--line);
+    font-size:var(--step-0);color:var(--text-2)}
+  .nav__theme:hover{color:var(--text)}
+  .nav__theme svg{flex:0 0 auto;width:20px;height:20px;fill:currentColor}
+  .brand{order:0;flex:0 0 auto}
+  .tools{order:1;flex:1;justify-content:flex-end;margin-inline-start:0}
+  .nav{position:absolute;top:100%;left:0;right:0;background:var(--reed-2);border-bottom:1px solid var(--line);
+    flex-direction:column;padding:var(--pad);gap:.2rem;margin:0}
+  .nav[hidden]{display:none}
+  .nav a{font-size:var(--step-0);padding:.6em .4em}
+  .brand__txt{display:none}
+}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:clamp(560px,92svh,900px);display:grid;align-items:center;overflow:hidden;
+  border-bottom:1px solid var(--line)}
+.hero__weave{position:absolute;inset:0;width:100%;height:100%;opacity:.9}
+.hero__in{position:relative;width:var(--shell);margin-inline:auto;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);
+  gap:var(--gap);align-items:center;padding-block:clamp(3rem,8vh,6rem)}
+.eyebrow{font-size:.74rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teak);font-weight:600;margin-bottom:1.1rem;
+  display:flex;align-items:center;gap:.7rem}
+.eyebrow::before{content:"";width:44px;height:1px;background:var(--teak)}
+.hero h1{font-size:var(--step-4);font-weight:300;letter-spacing:-.01em}
+.hero h1 em{font-style:normal;display:block;font-weight:600;color:var(--green-solid)}
+html[data-theme="dark"] .hero h1 em{color:var(--gold-lite)}
+.hero__sub{margin-top:1.4rem;max-width:46ch;color:var(--text-2);font-size:var(--step-1);line-height:1.6;font-weight:300}
+.hero__years{margin-top:1.6rem;font-family:var(--font-display);font-size:var(--step-1);color:var(--teak);letter-spacing:.06em}
+.cta{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:2rem}
+.btn{display:inline-flex;align-items:center;gap:.55rem;padding:.82em 1.5em;border-radius:var(--r-s);font-size:var(--step--1);
+  font-weight:500;text-decoration:none;border:1px solid var(--green-solid);transition:transform .18s var(--ease),background .2s,box-shadow .2s}
+.btn--solid{background:var(--green-solid);color:var(--reed)}
+.btn--solid:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.btn[hidden]{display:none}
+html[data-theme="dark"] .btn--solid{background:var(--gold);color:#14201A;border-color:var(--gold)}
+html[data-theme="dark"] .btn--ghost{border-color:var(--line)}
+html[data-theme="dark"] .brand__mark{box-shadow:inset 0 0 0 1px var(--line)}
+.btn--ghost{border-color:var(--line)}
+.btn--ghost:hover{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 12%,transparent)}
+.portrait{position:relative}
+.portrait figcaption{margin-top:.9rem;font-size:.76rem;color:var(--text-2);line-height:1.5;border-left:2px solid var(--gold);padding-left:.8rem}
+@media (max-width:860px){
+  .hero__in{grid-template-columns:1fr}
+  .portrait{order:-1;max-width:300px}
+}
+
+/* ---------- SECTION ---------- */
+.sec{padding-block:clamp(3.5rem,9vh,7rem);position:relative;border-bottom:1px solid var(--line)}
+.sec--tint{background:var(--reed-2)}
+.sec--deep{background:var(--green-solid);color:var(--reed);border-color:rgba(238,227,204,.14)}
+.sec--deep .sechead__no,.sec--deep .lead{color:rgba(238,227,204,.72)}
+.sechead{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--gap);align-items:start;margin-bottom:clamp(2rem,4vh,3.4rem)}
+.sechead__no{font-family:var(--font-display);font-size:var(--step-1);color:var(--teak);padding-top:.3em;font-variant-numeric:tabular-nums}
+.sechead h2{font-size:var(--step-3);font-weight:400;max-width:20ch}
+.lead{margin-top:1rem;max-width:62ch;color:var(--text-2);font-size:var(--step-0)}
+
+/* ---------- TIMELINE ---------- */
+.tl{display:grid;grid-template-columns:minmax(0,215px) minmax(0,1fr);gap:clamp(1.2rem,3vw,3.5rem)}
+.tl__rail{position:sticky;top:96px;align-self:start;max-height:calc(100svh - 130px);overflow:auto;padding-right:.4rem}
+.tl__rail::-webkit-scrollbar{width:4px}
+.tl__rail::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+.tl__year{display:flex;align-items:baseline;gap:.7rem;width:100%;text-align:left;padding:.34em .5em;border-radius:var(--r-s);
+  color:var(--text-2);font-size:var(--step--1);transition:color .2s,background .2s}
+.tl__year b{font-family:var(--font-display);font-size:1.02rem;font-weight:500;font-variant-numeric:tabular-nums;flex:0 0 auto;min-width:4.6ch}
+.tl__year span{font-size:.82rem;line-height:1.45}
+.tl__year:hover{background:color-mix(in srgb,var(--gold) 12%,transparent);color:var(--text)}
+.tl__year[aria-current="true"]{color:var(--text);background:color-mix(in srgb,var(--gold) 20%,transparent)}
+.tl__year[aria-current="true"] b{color:var(--teak)}
+.filters{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.6rem}
+.chip{border:1px solid var(--line);border-radius:100px;padding:.34em .95em;font-size:.78rem;color:var(--text-2);transition:.2s var(--ease)}
+.chip[aria-pressed="true"]{background:var(--green-solid);border-color:var(--green-solid);color:var(--reed)}
+.chip:hover{border-color:var(--gold)}
+.ev{border-left:1px solid var(--line);padding:0 0 clamp(2rem,4vh,3.4rem) clamp(1.2rem,3vw,2.6rem);position:relative;
+  opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.ev.in{opacity:1;transform:none}
+.ev.hide{display:none}
+.ev::before{content:"";position:absolute;left:-5px;top:.55em;width:9px;height:9px;background:var(--bg);border:1px solid var(--teak);rotate:45deg}
+.ev.in::before{background:var(--teak)}
+.ev__meta{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap;margin-bottom:.5rem}
+.ev__yr{font-family:var(--font-display);font-size:var(--step-2);color:var(--teak);line-height:1;font-variant-numeric:tabular-nums}
+.ev__tag{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2);border:1px solid var(--line);border-radius:100px;padding:.24em .8em}
+.ev__date{font-size:.78rem;color:var(--text-2)}
+.ev h3{font-size:var(--step-1);font-weight:500;margin-bottom:.9rem}
+.ev__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,228px);gap:clamp(1rem,2.4vw,2rem);align-items:start}
+.ev__text{display:grid;gap:.85rem}
+.ev p{color:var(--text-2);max-width:60ch}
+.ev__fig{margin:0}
+.ev__art{border:1px solid var(--line);border-radius:var(--r-m);overflow:hidden;background:var(--reed-3);line-height:0}
+.ev__art svg{width:100%;height:auto}
+.ev__fig figcaption{margin-top:.55rem;font-size:.72rem;line-height:1.45;color:var(--text-2);
+  border-left:2px solid var(--gold);padding-left:.6rem}
+.ev__q{margin-top:.35rem;padding:1rem 1.2rem;background:var(--surface);border-left:3px solid var(--gold);border-radius:0 var(--r-m) var(--r-m) 0;
+  font-family:var(--font-body);font-style:italic;font-size:var(--step-1);line-height:1.55;color:var(--text)}
+@media (max-width:900px){
+  .ev__grid{grid-template-columns:1fr}
+  .ev__fig{order:-1;max-width:340px}
+}
+@media (max-width:760px){
+  .tl{grid-template-columns:1fr}
+  .tl__rail{position:static;max-height:none;display:flex;gap:.3rem;overflow-x:auto;padding-bottom:.6rem;margin-bottom:1rem;
+    border-bottom:1px solid var(--line)}
+  .tl__year{width:auto;white-space:nowrap}
+  .tl__year span{display:none}
+}
+
+/* ---------- JOURNEY ---------- */
+.journey{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,380px);gap:var(--gap);align-items:start}
+.journey__map{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:clamp(1rem,2vw,2rem);overflow:hidden}
+.sec--deep .journey__map{background:rgba(238,227,204,.05);border-color:rgba(238,227,204,.16)}
+.node{cursor:pointer;transition:transform .25s var(--ease)}
+.node circle.dot{transition:r .25s var(--ease),fill .25s var(--ease)}
+.node:hover circle.dot,.node[aria-pressed="true"] circle.dot{r:13;fill:var(--gold-lite)}
+.node text{font-family:var(--font-body);font-size:12px;fill:currentColor;pointer-events:none}
+.node[aria-pressed="true"] text{font-weight:600}
+.node text.num{font-family:var(--font-display);font-size:22px}
+.placenav{display:none;flex-wrap:wrap;gap:.4rem;margin-top:1.1rem}
+.sec--deep .chip{border-color:rgba(238,227,204,.3);color:rgba(238,227,204,.82)}
+.sec--deep .chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#14201A}
+@media (min-width:701px){.node text.num{display:none}}
+@media (max-width:700px){.node text.full{display:none}.placenav{display:flex}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:clamp(1.3rem,2.4vw,2rem)}
+.sec--deep .card{background:rgba(238,227,204,.06);border-color:rgba(238,227,204,.18)}
+.card h3{font-size:var(--step-2);font-weight:400;margin-bottom:.3rem}
+.card__yrs{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teak);margin-bottom:1rem}
+.sec--deep .card__yrs{color:var(--gold-lite)}
+.card p{color:inherit;opacity:.86}
+.card dl{margin:1.3rem 0 0;display:grid;grid-template-columns:auto 1fr;gap:.45rem 1rem;font-size:var(--step--1)}
+.card dt{opacity:.6}
+.card dd{margin:0}
+@media (max-width:860px){.journey{grid-template-columns:1fr}}
+
+/* ---------- LOOM ---------- */
+.loom{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:var(--gap);align-items:start}
+.loom__panel{display:grid;gap:1.4rem}
+.field{display:grid;gap:.55rem}
+.field>span{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-2)}
+.swatches{display:flex;gap:.5rem;flex-wrap:wrap}
+.sw{width:30px;height:30px;border-radius:50%;border:2px solid transparent;box-shadow:inset 0 0 0 1px var(--line);transition:.2s var(--ease)}
+.sw[aria-pressed="true"]{border-color:var(--gold);transform:scale(1.12)}
+.patterns{display:grid;grid-template-columns:repeat(auto-fit,minmax(124px,1fr));gap:.5rem}
+.pat{border:1px solid var(--line);border-radius:var(--r-m);padding:.6rem .4rem;display:grid;gap:.45rem;justify-items:center;
+  font-size:.74rem;color:var(--text-2);transition:.2s var(--ease)}
+.pat:hover{border-color:var(--gold)}
+.pat[aria-pressed="true"]{border-color:var(--green-solid);background:color-mix(in srgb,var(--gold) 15%,transparent);color:var(--text)}
+.pat svg{width:38px;height:38px}
+.loom__stage{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);padding:clamp(.8rem,1.6vw,1.4rem);
+  display:grid;gap:1rem}
+.loom__frame{position:relative;border-radius:var(--r-m);overflow:hidden;background:var(--reed-3);aspect-ratio:4/3}
+.loom__frame canvas{width:100%;height:100%;display:block}
+.loom__hint{font-size:.78rem;color:var(--text-2);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+.progress{height:3px;background:var(--line);border-radius:3px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--gold);transition:width .12s linear}
+@media (max-width:860px){.loom{grid-template-columns:1fr}.loom__stage{order:-1}}
+
+/* ---------- COMPARE ---------- */
+.compare{position:relative;border:1px solid var(--line);border-radius:var(--r-l);overflow:hidden;background:var(--surface);
+  aspect-ratio:16/9;touch-action:none;user-select:none}
+.compare>svg{position:absolute;inset:0;width:100%;height:100%}
+.compare__top{clip-path:inset(0 calc(100% - var(--x,50%)) 0 0)}
+.compare__bar{position:absolute;top:0;bottom:0;left:var(--x,50%);width:2px;background:var(--gold);pointer-events:none}
+.compare__knob{position:absolute;top:50%;left:var(--x,50%);translate:-50% -50%;width:44px;height:44px;border-radius:50%;
+  background:var(--gold);color:var(--green-solid);display:grid;place-items:center;font-size:1rem;box-shadow:var(--shadow);cursor:ew-resize}
+.compare__lab{position:absolute;bottom:12px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  background:color-mix(in srgb,var(--green-solid) 88%,transparent);color:var(--reed);padding:.35em .9em;border-radius:100px;pointer-events:none}
+.compare__lab--l{left:12px}.compare__lab--r{right:12px}
+.compare input[type=range]{position:absolute;inset:auto 0 0;width:100%;opacity:0;height:100%;margin:0;cursor:ew-resize}
+
+/* ---------- GALLERY ---------- */
+.grid-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--gap)}
+.art{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);overflow:hidden;
+  display:grid;grid-template-rows:auto 1fr;transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .2s}
+.art:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--gold)}
+.art__img{aspect-ratio:4/3;background:var(--reed-3);display:grid;place-items:center;overflow:hidden}
+.art__img svg{width:100%;height:100%}
+.art__body{padding:1.1rem 1.2rem 1.4rem}
+.art__body h3{font-size:var(--step-1);font-weight:500;margin-bottom:.3rem}
+.art__body p{font-size:var(--step--1);color:var(--text-2)}
+.art__more{margin-top:.9rem;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teak)}
+
+/* ---------- MODAL ---------- */
+dialog{border:0;padding:0;background:transparent;max-width:min(640px,92vw)}
+dialog::backdrop{background:rgba(14,31,23,.6);backdrop-filter:blur(3px)}
+.modal{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);overflow:hidden}
+.modal__img{aspect-ratio:16/9;background:var(--reed-3)}
+.modal__body{padding:clamp(1.2rem,3vw,2rem)}
+.modal__body h3{font-size:var(--step-2);font-weight:400;margin-bottom:.6rem}
+.modal__body p{color:var(--text-2)}
+.modal__close{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;background:var(--reed);
+  color:var(--ink);display:grid;place-items:center;box-shadow:var(--shadow)}
+
+/* ---------- QUIZ ---------- */
+.quiz{max-width:760px;margin-inline:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);
+  padding:clamp(1.4rem,3vw,2.6rem)}
+.sec--deep .quiz{background:rgba(238,227,204,.06);border-color:rgba(238,227,204,.2)}
+.quiz__head{display:flex;justify-content:space-between;align-items:center;gap:1rem;font-size:.76rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--text-2);margin-bottom:.6rem}
+.sec--deep .quiz__head{color:rgba(238,227,204,.7)}
+.quiz__q{font-family:var(--font-display);font-size:var(--step-2);font-weight:400;margin:.4rem 0 1.4rem;line-height:1.35}
+.opts{display:grid;gap:.6rem}
+.opt{text-align:left;border:1px solid var(--line);border-radius:var(--r-m);padding:.85em 1.1em;display:flex;gap:.85rem;align-items:flex-start;
+  transition:.2s var(--ease)}
+.opt:hover:not(:disabled){border-color:var(--gold);background:color-mix(in srgb,var(--gold) 10%,transparent)}
+.opt:disabled{cursor:default}
+.opt b{font-family:var(--font-display);color:var(--teak);min-width:1.4ch}
+.opt.correct{border-color:#2E7D52;background:color-mix(in srgb,#2E7D52 16%,transparent)}
+.opt.wrong{border-color:var(--ruby);background:color-mix(in srgb,var(--ruby) 14%,transparent)}
+.explain{margin-top:1.2rem;padding:1rem 1.2rem;border-left:3px solid var(--gold);background:color-mix(in srgb,var(--gold) 10%,transparent);
+  border-radius:0 var(--r-m) var(--r-m) 0;font-size:var(--step--1)}
+.quiz__foot{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:1.6rem;flex-wrap:wrap}
+.dots{display:flex;gap:.35rem}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.dots i.done{background:var(--gold)}
+.dots i.now{background:var(--teak);transform:scale(1.3)}
+.score{text-align:center;display:grid;gap:1rem;justify-items:center}
+.score__n{font-family:var(--font-display);font-size:var(--step-4);line-height:1;color:var(--gold-lite)}
+
+/* ---------- FOOTER ---------- */
+.foot{background:var(--green-solid);color:var(--reed);padding-block:clamp(2.5rem,6vh,4.5rem)}
+.foot a{color:var(--gold-lite)}
+.foot__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)}
+.foot h3{font-size:var(--step-1);font-weight:400;margin-bottom:.8rem}
+.foot ul{margin:0;padding:0;list-style:none;display:grid;gap:.5rem;font-size:var(--step--1);opacity:.85}
+.foot__note{margin-top:2.5rem;padding-top:1.4rem;border-top:1px solid rgba(238,227,204,.2);font-size:.78rem;opacity:.7;max-width:75ch}
+.foot__credit{margin-top:1.1rem;font-size:.8rem;display:flex;align-items:baseline;gap:.5rem;opacity:.9}
+.foot__credit b{font-family:var(--font-display);font-weight:500;letter-spacing:.04em;color:var(--gold-lite)}
+
+/* ---------- misc ---------- */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:var(--gap);margin-top:2.4rem}
+.stat{border-top:1px solid var(--line);padding-top:1rem}
+.sec--deep .stat{border-color:rgba(238,227,204,.25)}
+.stat b{display:block;font-family:var(--font-display);font-size:var(--step-3);font-weight:400;color:var(--teak);line-height:1}
+.sec--deep .stat b{color:var(--gold-lite)}
+.stat span{font-size:var(--step--1);color:var(--text-2)}
+.sec--deep .stat span{color:rgba(238,227,204,.72)}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-th="ข้ามไปยังเนื้อหาหลัก" data-en="Skip to main content">ข้ามไปยังเนื้อหาหลัก</a>
+
+<!-- ============ NAV ============ -->
+<header class="topbar">
+  <div class="topbar__in">
+    <a class="brand" href="#top">
+      <span class="brand__mark" aria-hidden="true"><span>ร</span></span>
+      <span class="brand__txt">
+        <b data-th="ทอชีวิตเป็นผืนเสื่อ" data-en="A Life Woven">ทอชีวิตเป็นผืนเสื่อ</b>
+        <small data-th="สมเด็จพระนางเจ้ารำไพพรรณี" data-en="Queen Rambhai Barni">สมเด็จพระนางเจ้ารำไพพรรณี</small>
+      </span>
+    </a>
+    <button class="navtoggle" id="navToggle" aria-expanded="false" aria-controls="nav">☰ <span data-th="เมนู" data-en="Menu">เมนู</span></button>
+    <nav class="nav" id="nav" aria-label="เมนูหลัก">
+      <a href="#story" data-th="พระราชประวัติ" data-en="Life">พระราชประวัติ</a>
+      <a href="#journey" data-th="เส้นทางที่ประทับ" data-en="Journey">เส้นทางที่ประทับ</a>
+      <a href="#loom" data-th="กี่ทอเสื่อ" data-en="The Loom">กี่ทอเสื่อ</a>
+      <a href="#palace" data-th="สวนบ้านแก้ว" data-en="Suan Ban Kaeo">สวนบ้านแก้ว</a>
+      <a href="#gallery" data-th="ห้องจัดแสดง" data-en="Collection">ห้องจัดแสดง</a>
+      <a href="#game" data-th="เกม" data-en="Game">เกม</a>
+      <button class="nav__theme" id="themeBtnM">
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 13.2A9 9 0 1 1 10.8 3a7 7 0 0 0 10.2 10.2z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.4M12 19v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.6 12H5M19 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
+        <span id="themeLabelM">โหมดมืด</span>
+      </button>
+    </nav>
+    <div class="tools">
+      <button class="tool tool--icon" id="themeBtn" aria-label="สลับโหมดสว่าง/มืด">
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 13.2A9 9 0 1 1 10.8 3a7 7 0 0 0 10.2 10.2z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.4M12 19v2.4M4.6 4.6l1.7 1.7M17.7 17.7l1.7 1.7M2.6 12H5M19 12h2.4M4.6 19.4l1.7-1.7M17.7 6.3l1.7-1.7"/></svg>
+      </button>
+      <div class="lang" role="group" aria-label="ภาษา / Language">
+        <button id="langTH" aria-pressed="true" lang="th" aria-label="ภาษาไทย / Thai">
+          <span class="flag" aria-hidden="true"><svg viewBox="0 0 60 30"><rect width="60" height="30" fill="#A51931"/><rect y="5" width="60" height="20" fill="#F4F5F8"/><rect y="10" width="60" height="10" fill="#2D2A4A"/></svg></span>
+          <span>ไทย</span>
+        </button>
+        <button id="langEN" aria-pressed="false" lang="en" aria-label="ภาษาอังกฤษ / English">
+          <span class="flag" aria-hidden="true"><svg viewBox="0 0 60 30"><clipPath id="uj"><path d="M30 15h30v15zv15H30zH0V15zV0h30z"/></clipPath><path d="M0 0v30h60V0z" fill="#012169"/><path d="M0 0l60 30m0-30L0 30" stroke="#fff" stroke-width="6"/><path d="M0 0l60 30m0-30L0 30" clip-path="url(#uj)" stroke="#C8102E" stroke-width="4"/><path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="#C8102E" stroke-width="6"/></svg></span>
+          <span>ENG</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <svg class="hero__weave" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="var(--reed)" stop-opacity="0"/>
+        <stop offset="1" stop-color="var(--reed)" stop-opacity=".95"/>
+      </linearGradient>
+    </defs>
+    <g id="warpG" stroke="var(--teak)" stroke-opacity=".2" stroke-width="2"></g>
+    <g id="weftG" stroke="var(--green-solid)" stroke-opacity=".2" stroke-width="2"></g>
+    <rect width="1200" height="800" fill="url(#fade)"/>
+  </svg>
+  <div class="hero__in">
+    <div>
+      <p class="eyebrow" data-th="นิทรรศการออนไลน์" data-en="An online exhibition">นิทรรศการออนไลน์</p>
+      <h1>
+        <span data-th="ทอชีวิต" data-en="A life woven">ทอชีวิต</span>
+        <em data-th="เป็นผืนเสื่อ" data-en="into a reed mat">เป็นผืนเสื่อ</em>
+      </h1>
+      <p class="hero__sub" data-th="เรื่องราวของสมเด็จพระนางเจ้ารำไพพรรณี พระบรมราชินี ใน&#8288;รัชกาล&#8288;ที่&nbsp;๗ — พระราชินีพระองค์แรกในระบอบประชาธิปไตยของไทย ผู้ทรงย้ายจากวังหลวงไปตั้งต้นใหม่กลางสวนผลไม้เมืองจันท์ และทรงฟื้นชีวิตให้กับ &laquo;เสื่อจันทบูร&raquo;" data-en="The story of Queen Rambhai Barni, consort of King Prajadhipok (Rama VII) — Thailand's first queen under constitutional monarchy, who left the palace for an orchard in Chanthaburi and revived the craft of Chanthaboon reed mats.">เรื่องราวของสมเด็จพระนางเจ้ารำไพพรรณี พระบรมราชินี ใน&#8288;รัชกาล&#8288;ที่&nbsp;๗ — พระราชินีพระองค์แรกในระบอบประชาธิปไตยของไทย ผู้ทรงย้ายจากวังหลวงไปตั้งต้นใหม่กลางสวนผลไม้เมืองจันท์ และทรงฟื้นชีวิตให้กับ «เสื่อจันทบูร»</p>
+      <p class="hero__years">พ.ศ. ๒๔๔๗ — ๒๕๒๗ &nbsp;·&nbsp; 1904 — 1984</p>
+      <div class="cta">
+        <a class="btn btn--solid" href="#story" data-th="เริ่มอ่านเส้นเวลา ↓" data-en="Start the timeline ↓">เริ่มอ่านเส้นเวลา ↓</a>
+        <a class="btn btn--ghost" href="#loom" data-th="ลองทอเสื่อ" data-en="Try the loom">ลองทอเสื่อ</a>
+      </div>
+    </div>
+    <figure class="portrait">
+      <svg viewBox="0 0 340 430" role="img" aria-labelledby="portTitle">
+        <title id="portTitle">ภาพวาดลายเส้นเชิงสัญลักษณ์แทนพระฉายาลักษณ์</title>
+        <defs>
+          <clipPath id="pc"><rect x="20" y="20" width="300" height="390" rx="150" ry="150"/></clipPath>
+          <pattern id="mat" width="16" height="16" patternUnits="userSpaceOnUse">
+            <rect width="16" height="16" fill="#E4D5B7"/>
+            <rect width="8" height="8" fill="#EFE3CB"/>
+            <rect x="8" y="8" width="8" height="8" fill="#EFE3CB"/>
+          </pattern>
+        </defs>
+        <rect x="20" y="20" width="300" height="390" rx="150" fill="url(#mat)"/>
+        <g clip-path="url(#pc)">
+          <!-- สีในภาพประกอบตรึงไว้ ไม่ผูกกับธีม เพื่อไม่ให้กลับสีในโหมดมืด -->
+          <!-- ฉลองพระองค์ -->
+          <path d="M170 296c-56 0-102 32-116 80-6 20-9 38-9 54h250c0-16-3-34-9-54-14-48-60-80-116-80z" fill="#1D4433"/>
+          <!-- พระศอ -->
+          <path d="M146 262h48v48c0 14-48 14-48 0z" fill="#E3D0AE"/>
+          <path d="M146 262h48v18c-16 11-32 11-48 0z" opacity=".14"/>
+          <!-- พระเกศาด้านหลัง -->
+          <ellipse cx="170" cy="212" rx="70" ry="82" fill="#16221C"/>
+          <!-- พระพักตร์ -->
+          <ellipse cx="170" cy="216" rx="52" ry="62" fill="#F0E2C6"/>
+          <!-- ทรงพระเกศาลอนคลื่น -->
+          <path d="M104 202c5-44 32-70 66-70s61 26 66 70c-7-25-31-32-53-24-20 8-45 6-55 4-13-3-21 6-24 20z" fill="#16221C"/>
+          <path d="M126 168q16-12 32-6M180 160q17-5 28 10" fill="none" stroke="#F0E2C6" stroke-width="2" opacity=".22"/>
+          <!-- พระกรรณและต่างพระกรรณ -->
+          <circle cx="119" cy="224" r="8" fill="#E3D0AE"/><circle cx="221" cy="224" r="8" fill="#E3D0AE"/>
+          <circle cx="119" cy="240" r="6" fill="#D6AE4E"/><circle cx="221" cy="240" r="6" fill="#D6AE4E"/>
+          <!-- พระขนง พระเนตร พระโอษฐ์ -->
+          <path d="M141 199q13-9 26-2M177 197q13-7 26 2" fill="none" stroke="#16221C" stroke-width="2.6" stroke-linecap="round" opacity=".7"/>
+          <circle cx="153" cy="216" r="3.6" fill="#16221C"/><circle cx="191" cy="216" r="3.6" fill="#16221C"/>
+          <path d="M164 246q7 6 14 0" fill="none" stroke="#93332F" stroke-width="3" stroke-linecap="round"/>
+          <!-- สร้อยพระศอไข่มุก -->
+          <path d="M128 312q42 36 84 0" fill="none" stroke="#FBF6E8" stroke-width="7" stroke-linecap="round" opacity=".92"/>
+          <path d="M128 312q42 36 84 0" fill="none" stroke="#D9C9A6" stroke-width="7" stroke-dasharray="1 9"/>
+          <!-- สายสะพายและดารา (เชิงสัญลักษณ์) -->
+          <path d="M122 342L230 430" stroke="#B8892B" stroke-width="18" opacity=".9"/>
+          <path d="M122 342L230 430" stroke="#fff" stroke-width="3" opacity=".22"/>
+          <circle cx="208" cy="398" r="14" fill="#D6AE4E" stroke="#93332F" stroke-width="3"/>
+        </g>
+        <rect x="20" y="20" width="300" height="390" rx="150" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity=".7"/>
+      </svg>
+      <figcaption data-th="ภาพวาดลายเส้นเชิงสัญลักษณ์ที่จัดทำขึ้นใหม่สำหรับนิทรรศการนี้ มิใช่พระฉายาลักษณ์จริง" data-en="An original symbolic illustration made for this exhibition — not a photograph.">ภาพวาดลายเส้นเชิงสัญลักษณ์ที่จัดทำขึ้นใหม่สำหรับนิทรรศการนี้ มิใช่พระฉายาลักษณ์จริง</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ TIMELINE ============ -->
+<section class="sec" id="story">
+  <div class="shell">
+    <div class="sechead">
+      <span class="sechead__no">๐๑</span>
+      <div>
+        <h2 data-th="เส้นยืนของชีวิต — แปดสิบปีในสิบสองเหตุการณ์" data-en="The warp of a life — eighty years in twelve moments">เส้นยืนของชีวิต — แปดสิบปีในสิบสองเหตุการณ์</h2>
+        <p class="lead" data-th="เลือกปีจากแถบด้านซ้าย หรือเลื่อนอ่านไปเรื่อย ๆ · กรองเฉพาะหมวดที่สนใจได้ · ภาพประกอบทุกภาพวาดขึ้นใหม่สำหรับนิทรรศการนี้ ไม่ใช่ภาพถ่ายจริง" data-en="Pick a year from the rail, or just scroll. Filter by theme if you like. Every illustration was drawn for this exhibition — none are photographs.">เลือกปีจากแถบด้านซ้าย หรือเลื่อนอ่านไปเรื่อย ๆ · กรองเฉพาะหมวดที่สนใจได้ · ภาพประกอบทุกภาพวาดขึ้นใหม่สำหรับนิทรรศการนี้ ไม่ใช่ภาพถ่ายจริง</p>
+      </div>
+    </div>
+    <div class="filters" id="filters" role="group" aria-label="กรองตามหมวด"></div>
+    <div class="tl">
+      <nav class="tl__rail" id="rail" aria-label="เลือกปี"></nav>
+      <div id="events"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JOURNEY ============ -->
+<section class="sec sec--deep" id="journey">
+  <div class="shell">
+    <div class="sechead">
+      <span class="sechead__no">๐๒</span>
+      <div>
+        <h2 data-th="เส้นนอน — หกที่ประทับ หกช่วงชีวิต" data-en="The weft — six homes, six chapters">เส้นนอน — หกที่ประทับ หกช่วงชีวิต</h2>
+        <p class="lead" data-th="แผนภาพนี้ไม่ใช่แผนที่ตามมาตราส่วน แต่คือลำดับการเดินทางของพระองค์ · คลิกที่หมุดเพื่ออ่านรายละเอียด" data-en="Not a map to scale — a sequence of moves. Click a marker to read more.">แผนภาพนี้ไม่ใช่แผนที่ตามมาตราส่วน แต่คือลำดับการเดินทางของพระองค์ · คลิกที่หมุดเพื่ออ่านรายละเอียด</p>
+      </div>
+    </div>
+    <div class="journey">
+      <div class="journey__map">
+        <svg id="map" viewBox="0 0 720 420" role="group" aria-label="แผนภาพเส้นทางที่ประทับ"></svg>
+        <div class="placenav" id="placenav" role="group" aria-label="เลือกที่ประทับ"></div>
+      </div>
+      <article class="card" id="placeCard" aria-live="polite"></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LOOM ============ -->
+<section class="sec" id="loom">
+  <div class="shell">
+    <div class="sechead">
+      <span class="sechead__no">๐๓</span>
+      <div>
+        <h2 data-th="กี่ทอเสื่อจันทบูร" data-en="The Chanthaboon loom">กี่ทอเสื่อจันทบูร</h2>
+        <p class="lead" data-th="เสื่อจันทบูรทอจากต้นกกที่ขึ้นริมน้ำจันทบุรี ย้อมสี ผ่าเป็นเส้น แล้วสอดเส้นนอนทีละเส้นเข้าไปในเส้นยืน สมเด็จพระนางเจ้ารำไพพรรณีทรงตั้งโรงทอขึ้นในวังสวนบ้านแก้ว เพื่อให้ชาวบ้านมีอาชีพ · เลือกลาย เลือกสี แล้วกดทอ" data-en="Chanthaboon mats are woven from reeds cut along the river, dyed, split, then passed one weft at a time through the warp. The Queen set up a weaving house inside Suan Ban Kaeo so villagers had a trade. Pick a pattern, pick colours, then weave.">เสื่อจันทบูรทอจากต้นกกที่ขึ้นริมน้ำจันทบุรี ย้อมสี ผ่าเป็นเส้น แล้วสอดเส้นนอนทีละเส้นเข้าไปในเส้นยืน สมเด็จพระนางเจ้ารำไพพรรณีทรงตั้งโรงทอขึ้นในวังสวนบ้านแก้ว เพื่อให้ชาวบ้านมีอาชีพ · เลือกลาย เลือกสี แล้วกดทอ</p>
+      </div>
+    </div>
+    <div class="loom">
+      <div class="loom__panel">
+        <div class="field">
+          <span data-th="ลายทอ" data-en="Pattern">ลายทอ</span>
+          <div class="patterns" id="patterns" role="group" aria-label="เลือกลายทอ"></div>
+        </div>
+        <div class="field">
+          <span data-th="สีเส้นยืน" data-en="Warp colour">สีเส้นยืน</span>
+          <div class="swatches" id="warpSw" role="group" aria-label="สีเส้นยืน"></div>
+        </div>
+        <div class="field">
+          <span data-th="สีเส้นนอน" data-en="Weft colour">สีเส้นนอน</span>
+          <div class="swatches" id="weftSw" role="group" aria-label="สีเส้นนอน"></div>
+        </div>
+        <div class="cta" style="margin-top:0">
+          <button class="btn btn--solid" id="weaveBtn" data-th="ทอเสื่อ" data-en="Weave">ทอเสื่อ</button>
+          <button class="btn btn--ghost" id="saveBtn" data-th="บันทึกลาย" data-en="Save image">บันทึกลาย</button>
+        </div>
+      </div>
+      <div class="loom__stage">
+        <div class="loom__frame"><canvas id="loomCanvas" width="880" height="660" aria-label="ผืนเสื่อที่กำลังทอ" role="img"></canvas></div>
+        <div class="progress"><i id="prog"></i></div>
+        <p class="loom__hint">
+          <span id="loomStatus" data-th="พร้อมทอ" data-en="Ready to weave">พร้อมทอ</span>
+          <span data-th="ลายที่ได้เป็นของคุณ ดาวน์โหลดไปใช้ต่อได้" data-en="The pattern is yours to download.">ลายที่ได้เป็นของคุณ ดาวน์โหลดไปใช้ต่อได้</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PALACE / COMPARE ============ -->
+<section class="sec sec--tint" id="palace">
+  <div class="shell">
+    <div class="sechead">
+      <span class="sechead__no">๐๔</span>
+      <div>
+        <h2 data-th="วังสวนบ้านแก้ว — จากสวนร้างสู่มหาวิทยาลัย" data-en="Suan Ban Kaeo — from scrubland to a university">วังสวนบ้านแก้ว — จากสวนร้างสู่มหาวิทยาลัย</h2>
+        <p class="lead" data-th="ลากแถบเพื่อเทียบภาพ พ.ศ. ๒๔๙๓ กับปัจจุบัน (ภาพประกอบวาดขึ้นใหม่ ไม่ใช่ภาพถ่ายจริง) · ใช้ปุ่มลูกศรซ้าย–ขวาได้" data-en="Drag the handle to compare 1950 with today (both are original illustrations, not photographs). Arrow keys work too.">ลากแถบเพื่อเทียบภาพ พ.ศ. ๒๔๙๓ กับปัจจุบัน (ภาพประกอบวาดขึ้นใหม่ ไม่ใช่ภาพถ่ายจริง) · ใช้ปุ่มลูกศรซ้าย–ขวาได้</p>
+      </div>
+    </div>
+    <div class="compare" id="compare">
+      <!-- ปัจจุบัน (ชั้นล่าง) -->
+      <svg viewBox="0 0 800 450" aria-hidden="true">
+        <rect width="800" height="450" fill="#BFD3D8"/>
+        <rect y="300" width="800" height="150" fill="#7E9A6B"/>
+        <rect y="290" width="800" height="16" fill="#8FA97A"/>
+        <g opacity=".5" fill="#5C7A52">
+          <circle cx="80" cy="270" r="46"/><circle cx="150" cy="280" r="38"/><circle cx="690" cy="266" r="50"/><circle cx="620" cy="284" r="34"/>
+        </g>
+        <!-- ทางเดินปูอิฐ -->
+        <path d="M330 450L370 320h60l40 130z" fill="#C9BFAE"/>
+        <g stroke="#B3A794" stroke-width="2">
+          <path d="M345 410h110M352 380h96M360 350h80M366 330h68"/>
+        </g>
+        <!-- ตำหนักที่บูรณะแล้ว -->
+        <rect x="250" y="196" width="300" height="120" fill="#EDE6D6"/>
+        <rect x="250" y="196" width="300" height="120" fill="none" stroke="#B9AE97"/>
+        <path d="M232 200 400 128 568 200z" fill="#8E6F52"/>
+        <path d="M232 200 400 128 568 200z" fill="none" stroke="#6E5540"/>
+        <g fill="#5E7C86">
+          <rect x="276" y="224" width="36" height="58" rx="3"/><rect x="332" y="224" width="36" height="58" rx="3"/>
+          <rect x="432" y="224" width="36" height="58" rx="3"/><rect x="488" y="224" width="36" height="58" rx="3"/>
+        </g>
+        <rect x="382" y="238" width="36" height="78" fill="#7A5C42"/>
+        <!-- ป้ายพิพิธภัณฑ์ -->
+        <rect x="574" y="250" width="120" height="52" rx="4" fill="#234C3A"/>
+        <g fill="#D6AE4E"><rect x="586" y="264" width="96" height="5" rx="2"/><rect x="586" y="277" width="70" height="5" rx="2"/><rect x="586" y="288" width="84" height="4" rx="2"/></g>
+        <!-- ผู้เข้าชม -->
+        <g fill="#3B4C42">
+          <circle cx="196" cy="330" r="9"/><rect x="188" y="341" width="17" height="34" rx="7"/>
+          <circle cx="224" cy="336" r="8"/><rect x="217" y="346" width="15" height="30" rx="6"/>
+          <circle cx="600" cy="342" r="9"/><rect x="592" y="353" width="17" height="34" rx="7"/>
+        </g>
+      </svg>
+      <!-- พ.ศ.2493 (ชั้นบน คลิป) -->
+      <svg class="compare__top" viewBox="0 0 800 450" aria-hidden="true">
+        <rect width="800" height="450" fill="#E4D7B4"/>
+        <rect y="300" width="800" height="150" fill="#A79A63"/>
+        <rect y="292" width="800" height="14" fill="#B6A96F"/>
+        <g opacity=".55" fill="#7D7442">
+          <circle cx="72" cy="268" r="42"/><circle cx="140" cy="282" r="34"/><circle cx="700" cy="270" r="46"/><circle cx="636" cy="286" r="30"/>
+        </g>
+        <!-- แปลงผัก/สวนผลไม้ -->
+        <g stroke="#8A7F4C" stroke-width="3" opacity=".8">
+          <path d="M40 400h200M20 424h240M60 378h170"/>
+        </g>
+        <!-- ตำหนักไม้เดิม -->
+        <rect x="250" y="200" width="300" height="116" fill="#D9CDB0"/>
+        <g stroke="#A9997A" stroke-width="1.5">
+          <path d="M250 224h300M250 250h300M250 276h300M250 302h300"/>
+        </g>
+        <path d="M228 204 400 126 572 204z" fill="#9A7A55"/>
+        <path d="M400 126 572 204h-30L400 148z" fill="#846449"/>
+        <g fill="#7C6A4E">
+          <rect x="278" y="228" width="34" height="56" rx="2"/><rect x="334" y="228" width="34" height="56" rx="2"/>
+          <rect x="434" y="228" width="34" height="56" rx="2"/><rect x="490" y="228" width="34" height="56" rx="2"/>
+        </g>
+        <rect x="384" y="242" width="34" height="74" fill="#6B5540"/>
+        <!-- คนกำลังทอเสื่อ -->
+        <g>
+          <rect x="150" y="336" width="120" height="8" rx="3" fill="#8A5A2B"/>
+          <rect x="150" y="344" width="120" height="26" fill="#C9A227" opacity=".85"/>
+          <g stroke="#8A6A2B" stroke-width="2"><path d="M160 344v26M180 344v26M200 344v26M220 344v26M240 344v26M260 344v26"/></g>
+          <circle cx="140" cy="326" r="10" fill="#3B4C42"/><rect x="131" y="338" width="18" height="34" rx="7" fill="#93332F"/>
+        </g>
+        <!-- เป็ด ไก่ -->
+        <g fill="#F2ECDA" stroke="#7D7442">
+          <ellipse cx="600" cy="356" rx="14" ry="9"/><circle cx="612" cy="346" r="5"/>
+          <ellipse cx="640" cy="372" rx="12" ry="8"/><circle cx="650" cy="364" r="4.4"/>
+        </g>
+      </svg>
+      <div class="compare__bar"></div>
+      <div class="compare__knob" aria-hidden="true">⇄</div>
+      <span class="compare__lab compare__lab--l" data-th="พ.ศ. ๒๔๙๓" data-en="1950">พ.ศ. ๒๔๙๓</span>
+      <span class="compare__lab compare__lab--r" data-th="ปัจจุบัน" data-en="Today">ปัจจุบัน</span>
+      <input type="range" min="0" max="100" value="50" id="cmpRange" aria-label="เลื่อนเพื่อเทียบภาพอดีตกับปัจจุบัน">
+    </div>
+    <div class="stat-row">
+      <div class="stat"><b>๑๘</b><span data-th="ปีที่ทรงประทับ ณ จันทบุรี (๒๔๙๓–๒๕๑๑)" data-en="years living in Chanthaburi (1950–1968)">ปีที่ทรงประทับ ณ จันทบุรี (๒๔๙๓–๒๕๑๑)</span></div>
+      <div class="stat"><b>๒๔</b><span data-th="ประเทศที่ตามเสด็จเยือน ๔ ทวีป" data-en="countries visited across 4 continents">ประเทศที่ตามเสด็จเยือน ๔ ทวีป</span></div>
+      <div class="stat"><b>๗๙</b><span data-th="พระชนมพรรษาเมื่อเสด็จสวรรคต" data-en="years of age at her passing">พระชนมพรรษาเมื่อเสด็จสวรรคต</span></div>
+      <div class="stat"><b>๑</b><span data-th="พระอัครมเหสีพระองค์เดียวในรัชกาลที่ ๗" data-en="sole consort of King Rama VII">พระอัครมเหสีพระองค์เดียวในรัชกาลที่ ๗</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section class="sec" id="gallery">
+  <div class="shell">
+    <div class="sechead">
+      <span class="sechead__no">๐๕</span>
+      <div>
+        <h2 data-th="ห้องจัดแสดง" data-en="The collection">ห้องจัดแสดง</h2>
+        <p class="lead" data-th="หกสิ่งที่เล่าเรื่องพระองค์ได้ดีที่สุด · คลิกเพื่อเปิดป้ายคำบรรยาย (ภาพประกอบวาดขึ้นใหม่ทั้งหมด)" data-en="Six objects that tell her story best. Click for the label. All illustrations are original.">หกสิ่งที่เล่าเรื่องพระองค์ได้ดีที่สุด · คลิกเพื่อเปิดป้ายคำบรรยาย (ภาพประกอบวาดขึ้นใหม่ทั้งหมด)</p>
+      </div>
+    </div>
+    <div class="grid-cards" id="gallery-grid"></div>
+  </div>
+</section>
+
+<!-- ============ GAME ============ -->
+<section class="sec sec--deep" id="game">
+  <div class="shell">
+    <div class="sechead">
+      <span class="sechead__no">๐๖</span>
+      <div>
+        <h2 data-th="เกม — ทอความจำ" data-en="Game — weave your memory">เกม — ทอความจำ</h2>
+        <p class="lead" data-th="แปดคำถามจากทุกห้องในนิทรรศการ ตอบแล้วรู้เฉลยทันที" data-en="Eight questions drawn from every room. Instant answers.">แปดคำถามจากทุกห้องในนิทรรศการ ตอบแล้วรู้เฉลยทันที</p>
+      </div>
+    </div>
+    <div class="quiz" id="quiz"></div>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="shell">
+    <div class="foot__grid">
+      <div>
+        <h3 data-th="เกี่ยวกับนิทรรศการนี้" data-en="About this exhibition">เกี่ยวกับนิทรรศการนี้</h3>
+        <p style="font-size:var(--step--1);opacity:.85" data-th="นิทรรศการออนไลน์เพื่อการศึกษา จัดทำขึ้นอย่างอิสระ ไม่ใช่เว็บไซต์ของหน่วยงานราชการหรือพิพิธภัณฑ์แห่งใด ภาพประกอบทั้งหมดวาดขึ้นใหม่เป็นลายเส้นเชิงสัญลักษณ์" data-en="An independent educational exhibition. Not affiliated with any government body or museum. All illustrations are original symbolic drawings.">นิทรรศการออนไลน์เพื่อการศึกษา จัดทำขึ้นอย่างอิสระ ไม่ใช่เว็บไซต์ของหน่วยงานราชการหรือพิพิธภัณฑ์แห่งใด ภาพประกอบทั้งหมดวาดขึ้นใหม่เป็นลายเส้นเชิงสัญลักษณ์</p>
+      </div>
+      <div>
+        <h3 data-th="แหล่งอ้างอิง" data-en="Sources">แหล่งอ้างอิง</h3>
+        <ul>
+          <li><a href="https://th.wikipedia.org/wiki/สมเด็จพระนางเจ้ารำไพพรรณี_พระบรมราชินี" target="_blank" rel="noopener">วิกิพีเดีย · สมเด็จพระนางเจ้ารำไพพรรณี</a></li>
+          <li><a href="https://th.wikipedia.org/wiki/วังสวนบ้านแก้ว" target="_blank" rel="noopener">วิกิพีเดีย · วังสวนบ้านแก้ว</a></li>
+          <li><a href="https://wiki.kpi.ac.th/" target="_blank" rel="noopener">ฐานข้อมูลสถาบันพระปกเกล้า</a></li>
+          <li><a href="https://library.stou.ac.th/2023/12/queen-rambhai-barni-biography/" target="_blank" rel="noopener">ห้องสมุด มสธ. · พระราชประวัติ</a></li>
+          <li><a href="https://www.silpa-mag.com/history/article_12544" target="_blank" rel="noopener">ศิลปวัฒนธรรม · อัญเชิญพระบรมอัฐิ ร.๗</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 data-th="สำรวจต่อ" data-en="Keep exploring">สำรวจต่อ</h3>
+        <ul>
+          <li><a href="#story" data-th="เส้นเวลา" data-en="Timeline">เส้นเวลา</a></li>
+          <li><a href="#loom" data-th="กี่ทอเสื่อ" data-en="The loom">กี่ทอเสื่อ</a></li>
+          <li><a href="#game" data-th="เกม" data-en="Game">เกม</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot__note" data-th="ข้อมูลเรียบเรียงจากแหล่งอ้างอิงข้างต้น วันเวลาบางแห่งอาจต่างกันตามการนับปีปฏิทินเก่า (ปีใหม่ ๑ เมษายน) หากพบข้อคลาดเคลื่อนโปรดตรวจสอบกับเอกสารต้นทาง" data-en="Compiled from the sources above. Some dates differ between the old Thai calendar (year starting 1 April) and the modern one; please check primary sources for precision.">ข้อมูลเรียบเรียงจากแหล่งอ้างอิงข้างต้น วันเวลาบางแห่งอาจต่างกันตามการนับปีปฏิทินเก่า (ปีใหม่ ๑ เมษายน) หากพบข้อคลาดเคลื่อนโปรดตรวจสอบกับเอกสารต้นทาง</p>
+    <p class="foot__credit"><span data-th="ผู้พัฒนาโดย" data-en="Developed by">ผู้พัฒนาโดย</span> <b>jintawat-n</b></p>
+  </div>
+</footer>
+
+<dialog id="modal"><div class="modal" style="position:relative">
+  <div class="modal__img" id="modalImg"></div>
+  <div class="modal__body"><h3 id="modalTitle"></h3><p id="modalText"></p></div>
+  <button class="modal__close" id="modalClose" aria-label="ปิด">✕</button>
+</div></dialog>
+
+<script>
+/* ============================================================
+   0 · ข้อมูล
+   ============================================================ */
+const TH_NUM = n => String(n).replace(/\d/g, d => '๐๑๒๓๔๕๖๗๘๙'[d]);
+
+const THEMES = {
+  court:  {th:'ราชสำนัก',     en:'Court'},
+  change: {th:'ผลัดแผ่นดิน',  en:'Upheaval'},
+  exile:  {th:'ต่างแดน',      en:'Abroad'},
+  chan:   {th:'จันทบุรี',     en:'Chanthaburi'},
+  people: {th:'เพื่อราษฎร',   en:'For the people'}
+};
+
+const EVENTS = [
+  {be:2447, ce:1904, theme:'court', date:{th:'๒๐ ธันวาคม ๒๔๔๗',en:'20 Dec 1904'}, art:'birth',
+   where:{th:'กรุงเทพมหานคร', en:'Bangkok'},
+   t:{th:'ประสูติ ณ กรุงเทพฯ', en:'Born in Bangkok'},
+   d:{th:'ประสูติเมื่อวันที่ ๒๐ ธันวาคม ๒๔๔๗ มีพระนามเดิมว่า หม่อมเจ้ารำไพพรรณี สวัสดิวัตน์ เป็นพระธิดาในสมเด็จพระเจ้าบรมวงศ์เธอ กรมพระสวัสดิวัดนวิศิษฎ์ กับพระเจ้าวรวงศ์เธอ พระองค์เจ้าอาภาพรรณี',
+       en:'Born on 20 December 1904 as Mom Chao Rambhai Barni Svasti, daughter of Prince Svasti Sobhana and Princess Abha Barni.'},
+   d2:{th:'ทรงเข้าศึกษาที่โรงเรียนราชินี หนึ่งในโรงเรียนสตรีแห่งแรก ๆ ของสยาม การได้เล่าเรียนอย่างเป็นระบบตั้งแต่ทรงพระเยาว์กลายเป็นรากฐานของความสนพระทัยเรื่องการศึกษาของสตรีในเวลาต่อมา',
+        en:'She was schooled at Rajini School, one of the first girls\' schools in Siam — an early grounding that shaped her later support for women\'s education.'}},
+
+  {be:2461, ce:1918, theme:'court', date:{th:'๒๖ สิงหาคม ๒๔๖๑',en:'26 Aug 1918'}, art:'wedding',
+   where:{th:'พระที่นั่งวโรภาษพิมาน พระราชวังบางปะอิน', en:'Bang Pa-In Palace, Ayutthaya'},
+   t:{th:'อภิเษกสมรส ณ พระราชวังบางปะอิน', en:'Marriage at Bang Pa-In'},
+   d:{th:'ทรงอภิเษกสมรสกับสมเด็จเจ้าฟ้าประชาธิปกศักดิเดชน์ กรมขุนสุโขทัยธรรมราชา ขณะพระชนมายุ ๑๓ พรรษา ในพระราชพิธีที่พระบาทสมเด็จพระมงกุฎเกล้าเจ้าอยู่หัวเสด็จพระราชดำเนินพระราชทานน้ำสังข์ด้วยพระองค์เอง',
+       en:'At thirteen she married Prince Prajadhipok Sakdidej in a ceremony at which King Vajiravudh himself poured the sacred water.'},
+   d2:{th:'พิธีครั้งนี้นับเป็นการเสกสมรสตามแบบตะวันตกครั้งแรก ๆ ในราชสำนักสยาม และทั้งสองพระองค์ทรงครองคู่กันเพียงลำพังตลอดพระชนม์ชีพ ไม่มีพระสนม ซึ่งต่างจากธรรมเนียมราชสำนักเดิมอย่างสิ้นเชิง หลังอภิเษกจึงเสด็จมาประทับ ณ วังศุโขทัย ริมคลองสามเสน',
+        en:'It was among the first Western-style weddings in the Siamese court, and theirs remained a monogamous marriage for life — a sharp break with court tradition. They settled at Sukhothai Palace beside Khlong Samsen.'},
+   q:{th:'ทั้งสองพระองค์ทรงเป็นคู่ที่ครองรักกันเพียงหนึ่งเดียวตลอดพระชนม์ชีพ', en:'Theirs was a monogamous marriage for life — a first in the Siamese court.'}},
+
+  {be:2468, ce:1925, theme:'court', date:{th:'๒๖ พฤศจิกายน ๒๔๖๘',en:'26 Nov 1925'}, art:'throne',
+   where:{th:'พระบรมมหาราชวัง', en:'The Grand Palace'},
+   t:{th:'พระราชสวามีเสด็จขึ้นครองราชย์', en:'Her husband becomes King'},
+   d:{th:'เมื่อพระบาทสมเด็จพระมงกุฎเกล้าเจ้าอยู่หัวเสด็จสวรรคต สมเด็จเจ้าฟ้าประชาธิปกฯ ซึ่งเป็นพระอนุชาพระองค์เล็กที่สุด เสด็จขึ้นครองราชย์เป็นรัชกาลที่ ๗ อย่างที่แทบไม่มีใครคาดคิด เพราะเจ้านายที่อยู่ในลำดับก่อนหน้าสิ้นพระชนม์ไปก่อนหลายพระองค์',
+       en:'When King Vajiravudh died, Prince Prajadhipok — the youngest brother — unexpectedly took the throne as Rama VII, several princes ahead of him having died first.'},
+   d2:{th:'พระองค์จึงทรงเปลี่ยนสถานะจากชายาของเจ้านายพระองค์หนึ่ง มาเป็นพระมเหสีในพระมหากษัตริย์ ในเวลาที่สยามกำลังเผชิญภาวะเศรษฐกิจตกต่ำและแรงกดดันให้ปฏิรูปการปกครอง',
+        en:'Overnight she moved from being a prince\'s consort to the King\'s — at a moment when Siam faced economic depression and mounting pressure for political reform.'}},
+
+  {be:2469, ce:1926, theme:'court', date:{th:'พระราชพิธีบรมราชาภิเษก เดือนกุมภาพันธ์',en:'Coronation, February 1926'}, art:'queen',
+   where:{th:'พระบรมมหาราชวัง', en:'The Grand Palace'},
+   t:{th:'สถาปนาเป็นสมเด็จพระนางเจ้ารำไพพรรณี พระบรมราชินี', en:'Crowned Queen'},
+   d:{th:'ในพระราชพิธีบรมราชาภิเษก ทรงได้รับการสถาปนาเป็น “สมเด็จพระนางเจ้ารำไพพรรณี พระบรมราชินี” และทรงเป็นพระอัครมเหสีพระองค์เดียวตลอดรัชกาล',
+       en:'At the coronation she was elevated to Queen Rambhai Barni — the King\'s sole consort throughout the reign.'},
+   d2:{th:'ตลอดรัชสมัยทรงตามเสด็จเยือนต่างประเทศรวม ๒๔ ประเทศใน ๔ ทวีป ทั้งอินโดจีน ชวา ญี่ปุ่น สหรัฐอเมริกา แคนาดา และยุโรป การปรากฏพระองค์เคียงข้างพระราชสวามีในฐานะคู่พระบารมีตามแบบราชสำนักตะวันตก ทำให้ภาพของสยามในสายตานานาชาติเปลี่ยนไปมาก และในรัชสมัยนี้เองที่จุฬาลงกรณ์มหาวิทยาลัยเริ่มรับนิสิตหญิงรุ่นแรก',
+        en:'She accompanied the King on state visits to 24 countries across four continents — Indochina, Java, Japan, the United States, Canada and Europe — appearing beside him as a consort in the Western manner, which changed how the world saw Siam. It was in this reign that Chulalongkorn University admitted its first women students.'}},
+
+  {be:2475, ce:1932, theme:'change', date:{th:'๒๔ มิถุนายน ๒๔๗๕',en:'24 June 1932'}, art:'revolution',
+   where:{th:'วังไกลกังวล หัวหิน', en:'Klai Kangwon, Hua Hin'},
+   t:{th:'เปลี่ยนแปลงการปกครอง', en:'The 1932 revolution'},
+   d:{th:'เช้าวันที่ ๒๔ มิถุนายน ๒๔๗๕ ขณะทั้งสองพระองค์ประทับแปรพระราชฐาน ณ วังไกลกังวล หัวหิน คณะราษฎรเข้ายึดอำนาจในพระนคร ทรงตัดสินพระราชหฤทัยเสด็จกลับพระนครพร้อมพระราชสวามี แทนที่จะเสด็จลี้ภัย',
+       en:'On the morning of 24 June 1932, while the royal couple were at Klai Kangwon in Hua Hin, the People\'s Party seized power in Bangkok. She chose to return to the capital at the King\'s side rather than flee.'},
+   d2:{th:'เมื่อสยามเปลี่ยนเป็นระบอบพระมหากษัตริย์ภายใต้รัฐธรรมนูญ พระองค์จึงกลายเป็นพระราชินีพระองค์แรกในระบอบใหม่ ช่วงเวลาหลังจากนั้นเต็มไปด้วยความตึงเครียดระหว่างราชสำนักกับรัฐบาล',
+        en:'With Siam now a constitutional monarchy, she became the first queen under the new system. The years that followed were marked by mounting tension between palace and government.'}},
+
+  {be:2477, ce:1935, theme:'change', date:{th:'๒ มีนาคม ๒๔๗๗ (ปฏิทินเดิม)',en:'2 March 1935'}, art:'abdication',
+   where:{th:'ประเทศอังกฤษ', en:'England'},
+   t:{th:'พระราชสวามีทรงสละราชสมบัติ', en:'Abdication'},
+   d:{th:'ปลายปี ๒๔๗๖ ทั้งสองพระองค์เสด็จไปรักษาพระเนตรที่ประเทศอังกฤษ การเจรจากับรัฐบาลเรื่องพระราชอำนาจไม่เป็นผล พระบาทสมเด็จพระปกเกล้าเจ้าอยู่หัวจึงทรงประกาศสละราชสมบัติจากที่นั่น',
+       en:'In late 1933 the couple travelled to England for eye treatment. When negotiations with the government over royal powers failed, the King announced his abdication from there.'},
+   d2:{th:'สมเด็จพระนางเจ้ารำไพพรรณีทรงร่วมตัดสินพระราชหฤทัยและเลือกอยู่เคียงข้าง ทั้งสองพระองค์ทรงสละฐานันดรและทรัพย์สินจำนวนมาก แล้วเริ่มต้นชีวิตอย่างสามัญชนในชนบทอังกฤษ ย้ายที่ประทับหลายแห่ง เช่น เวนคอร์ท โนล และคอมพ์ตัน',
+        en:'She shared in the decision and stayed at his side. Giving up rank and much of their property, they began life as private citizens in the English countryside, moving between houses — Vane Court, Knowle, and finally Compton.'},
+   q:{th:'“ข้าพเจ้ามีความเต็มใจที่จะสละอำนาจ… แต่ข้าพเจ้าไม่ยินยอมยกอำนาจนั้นให้แก่ผู้ใด คณะใด โดยเฉพาะ” — พระราชหัตถเลขาสละราชสมบัติ',
+      en:'“I am willing to surrender the powers I formerly exercised, but I refuse to turn them over to any individual or group.” — the abdication letter'}},
+
+  {be:2484, ce:1941, theme:'exile', date:{th:'๓๐ พฤษภาคม ๒๔๘๔',en:'30 May 1941'}, art:'compton',
+   where:{th:'พระตำหนักคอมพ์ตัน ประเทศอังกฤษ', en:'Compton House, England'},
+   t:{th:'รัชกาลที่ ๗ เสด็จสวรรคต ณ ประเทศอังกฤษ', en:'Rama VII dies in England'},
+   d:{th:'พระบาทสมเด็จพระปกเกล้าเจ้าอยู่หัวเสด็จสวรรคตด้วยพระหทัยวาย ณ พระตำหนักคอมพ์ตัน ท่ามกลางสงครามโลกครั้งที่สอง พระองค์ทรงจัดการพระบรมศพด้วยพระองค์เองอย่างเรียบง่ายที่สุด เพราะอยู่ในภาวะสงครามและติดต่อกับเมืองไทยแทบไม่ได้',
+       en:'The King died of heart failure at Compton House in the middle of the Second World War. She arranged the funeral herself, as simply as wartime and the near-impossibility of contacting Siam allowed.'},
+   d2:{th:'หลังจากนั้นยังคงประทับในอังกฤษต่ออีกเกือบสิบปี ทรงใช้ชีวิตอย่างประหยัดเช่นเดียวกับชาวอังกฤษทั่วไปในยามสงคราม และทรงทำงานอาสาสมัครช่วยเหลือผู้ประสบภัยสงครามอย่างต่อเนื่อง',
+        en:'She remained in Britain for almost a decade more, living frugally as wartime Britons did and volunteering steadily in war-relief work.'}},
+
+  {be:2492, ce:1949, theme:'exile', date:{th:'๒๔ พฤษภาคม ๒๔๙๒',en:'24 May 1949'}, art:'voyage',
+   where:{th:'เซาแทมป์ตัน → กรุงเทพฯ', en:'Southampton → Bangkok'},
+   t:{th:'เสด็จนิวัตพระนคร พร้อมพระบรมอัฐิ', en:'Return to Siam with the King\'s ashes'},
+   d:{th:'หลังสงครามยุติ รัฐบาลไทยกราบบังคมทูลเชิญเสด็จนิวัตพระนคร ทรงอัญเชิญพระบรมอัฐิพระบาทสมเด็จพระปกเกล้าเจ้าอยู่หัวลงเรือวิลเลม รอยส์ จากเมืองเซาแทมป์ตัน โดยรัฐบาลอังกฤษจัดกองทหารเกียรติยศส่งเสด็จ',
+       en:'After the war the Thai government invited her home. She carried King Prajadhipok\'s ashes aboard the Willem Ruys from Southampton, seen off by a British guard of honour.'},
+   d2:{th:'การเสด็จกลับครั้งนี้เป็นการปิดฉากการพลัดถิ่นนานเกือบ ๑๕ ปี แรกเสด็จถึงทรงประทับ ณ วังสระปทุมเป็นการชั่วคราว ก่อนจะทรงมองหาที่ประทับถาวรของพระองค์เอง',
+        en:'The voyage closed nearly fifteen years of exile. She stayed first at Sra Pathum Palace while looking for a permanent home of her own.'}},
+
+  {be:2493, ce:1950, theme:'chan', date:{th:'๒๐ มิถุนายน ๒๔๙๓',en:'20 June 1950'}, art:'bankaeo',
+   where:{th:'ตำบลท่าช้าง อำเภอเมือง จันทบุรี', en:'Tha Chang, Chanthaburi'},
+   t:{th:'สร้างวังสวนบ้านแก้ว จันทบุรี', en:'Building Suan Ban Kaeo, Chanthaburi'},
+   d:{th:'ทรงเลือกที่ดินริมแม่น้ำจันทบุรีสร้างที่ประทับใหม่ชื่อ “สวนบ้านแก้ว” ประกอบด้วยพระตำหนักใหญ่ (ตำหนักเทา) พระตำหนักดอนแค (ตำหนักแดง) เรือนเขียว และศาลากลม ล้วนเป็นเรือนไม้เรียบง่าย ไม่มีความหรูหราแบบวังในพระนคร',
+       en:'She chose land by the Chanthaburi River for a new home — the Grey Residence, the Red Residence at Don Khae, the Green House and a round pavilion — all plain timber buildings, nothing like a Bangkok palace.'},
+   d2:{th:'ทรงหักร้างถางพงพื้นที่รกร้างให้กลายเป็นสวนผลไม้ แปลงพืชผัก และฟาร์มสัตว์ปีก ทั้งเป็ด ห่าน ไก่ และนกหงส์หยก ทรงทดลองวิธีการเกษตรแล้วเผยแพร่ให้ราษฎรนำไปใช้ และทรงใช้ชีวิตอย่างสงบที่นี่ถึง ๑๘ ปี',
+        en:'She cleared scrubland into orchards, vegetable plots and a poultry farm of ducks, geese, chickens and budgerigars, testing methods and passing them on to villagers. She lived here quietly for eighteen years.'}},
+
+  {be:2497, ce:1954, theme:'people', date:{th:'ทศวรรษ ๒๔๙๐',en:'1950s'}, art:'mat',
+   where:{th:'โรงทอ วังสวนบ้านแก้ว', en:'The weaving house, Suan Ban Kaeo'},
+   t:{th:'ฟื้นชีวิตเสื่อจันทบูร', en:'Reviving the Chanthaboon mat'},
+   d:{th:'ทรงพบว่าการทอเสื่อกกซึ่งเป็นอาชีพเก่าแก่ของชาวจันทบุรีกำลังจะสูญหาย จึงโปรดให้ตั้งโรงทอขึ้นภายในวังสวนบ้านแก้ว รับชาวบ้านเข้ามาฝึกฝนและทำงานโดยได้รับค่าจ้าง',
+       en:'Finding that the region\'s old reed-mat trade was dying out, she opened a weaving house inside the palace grounds and took in villagers to train and employ on wages.'},
+   d2:{th:'ไม่ได้ทรงฟื้นเพียงเทคนิคการทอ แต่ทรงคิดแปรรูปผืนเสื่อให้เป็นกระเป๋า หมวก รองเท้า และของใช้ที่ขายได้ราคาดีขึ้น พร้อมพัฒนาลวดลายและสีย้อมใหม่ ๆ ทำให้ “เสื่อจันทบูร” กลายเป็นสินค้าขึ้นชื่อประจำจังหวัดมาจนถึงทุกวันนี้',
+        en:'She revived more than a technique: mats were turned into bags, hats, shoes and household goods that fetched better prices, with new patterns and dyes — making the Chanthaboon mat the province\'s signature craft to this day.'},
+   q:{th:'เสื่อหนึ่งผืนใช้เวลาทอราวหนึ่งถึงสองวัน และใช้ต้นกกที่ตากแดดจนแห้งสนิทนับร้อยเส้น', en:'One mat takes a day or two to weave, from hundreds of sun-dried reeds.'}},
+
+  {be:2511, ce:1968, theme:'people', date:{th:'พ.ศ. ๒๕๑๑',en:'1968'}, art:'return',
+   where:{th:'วังศุโขทัย กรุงเทพฯ', en:'Sukhothai Palace, Bangkok'},
+   t:{th:'เสด็จกลับมาประทับวังศุโขทัยถาวร', en:'Back to Sukhothai Palace for good'},
+   d:{th:'ด้วยเหตุผลด้านพระพลานามัย ในปี ๒๕๑๑ ทรงย้ายกลับมาประทับ ณ วังศุโขทัยเป็นการถาวร และโปรดให้ย้ายกิจการทอเสื่อส่วนหนึ่งตามมาไว้ที่วังศุโขทัยด้วย เพื่อให้งานที่ทรงริเริ่มไม่หยุดชะงัก',
+       en:'Health concerns brought her back to Sukhothai Palace for good in 1968 — and part of the weaving operation moved with her, so the work she had started would not stop.'},
+   d2:{th:'ในบั้นปลายยังทรงงานสังคมสงเคราะห์อย่างต่อเนื่อง ทั้งกับสภากาชาดไทย มูลนิธิ และงานสาธารณกุศลต่าง ๆ รวมถึงเสด็จเยี่ยมราษฎรและหน่วยงานที่ทรงอุปถัมภ์อยู่เสมอ',
+        en:'In her later years she kept up charitable work with the Thai Red Cross, foundations and public causes, and continued visiting the people and institutions under her patronage.'}},
+
+  {be:2527, ce:1984, theme:'people', date:{th:'๒๒ พฤษภาคม ๒๕๒๗',en:'22 May 1984'}, art:'passing',
+   where:{th:'วังศุโขทัย กรุงเทพฯ', en:'Sukhothai Palace, Bangkok'},
+   t:{th:'เสด็จสวรรคต', en:'Her passing'},
+   d:{th:'เสด็จสวรรคตเมื่อวันที่ ๒๒ พฤษภาคม ๒๕๒๗ ณ พระตำหนักวังศุโขทัย สิริพระชนมพรรษา ๗๙ พรรษา ๕ เดือน ๒ วัน',
+       en:'She died at Sukhothai Palace on 22 May 1984, aged 79 years, 5 months and 2 days.'},
+   d2:{th:'พระราชทรัพย์ส่วนหนึ่งกลายเป็น “มูลนิธิประชาธิปก–รำไพพรรณี” เพื่อการศึกษาและสาธารณกุศล ส่วนวังสวนบ้านแก้วที่จันทบุรีกลายเป็นพื้นที่ของมหาวิทยาลัยราชภัฏรำไพพรรณี ซึ่งยังคงดูแลพระตำหนักไว้เป็นแหล่งเรียนรู้จนถึงทุกวันนี้',
+        en:'Part of her estate became the Prajadhipok–Rambhai Barni Foundation for education and charity, while Suan Ban Kaeo in Chanthaburi became the campus of Rambhai Barni Rajabhat University, which still keeps the residences as a place of learning.'}}
+];
+
+/* ภาพประกอบเส้นเวลา — วาดขึ้นใหม่ทั้งหมด สีตรึงไว้ ไม่ผูกกับธีม */
+const EV_ART = {
+  birth:`<svg viewBox="0 0 240 170"><rect width="240" height="170" fill="#E7DCC0"/>
+    <circle cx="198" cy="38" r="19" fill="#F5EDD6"/><circle cx="198" cy="38" r="19" fill="none" stroke="#C9A227"/>
+    <rect y="128" width="240" height="42" fill="#8FA97A"/>
+    <rect x="44" y="80" width="94" height="48" fill="#EDE4CE"/>
+    <path d="M30 82 91 44l61 38z" fill="#8E6F52"/><path d="M91 44l-5-14 10 6 10-6-5 14z" fill="#C9A227"/>
+    <rect x="66" y="96" width="18" height="32" fill="#8E6F52"/>
+    <rect x="100" y="96" width="16" height="18" fill="#5E7C86"/>
+    <path d="M164 92v22" stroke="#8E6F52" stroke-width="3"/><path d="M150 114h44l-7 22h-30z" fill="#FBF6E8" stroke="#C9A227" stroke-width="1.5"/>
+    <g fill="#5C7A52"><circle cx="212" cy="120" r="16"/><circle cx="20" cy="116" r="14"/></g></svg>`,
+
+  wedding:`<svg viewBox="0 0 240 170"><rect width="240" height="170" fill="#CFE0DE"/>
+    <rect y="122" width="240" height="48" fill="#7FA3AE"/>
+    <g stroke="#9CBAC2" stroke-width="2"><path d="M10 138h50M70 150h60M150 136h60M40 160h70"/></g>
+    <rect x="88" y="88" width="64" height="34" fill="#EDE4CE"/>
+    <g fill="#C9A227"><rect x="94" y="94" width="7" height="28"/><rect x="115" y="94" width="7" height="28"/><rect x="139" y="94" width="7" height="28"/></g>
+    <path d="M76 90 120 62l44 28z" fill="#93332F"/><path d="M92 64 120 40l28 24z" fill="#93332F"/>
+    <path d="M120 40V24" stroke="#C9A227" stroke-width="3"/><circle cx="120" cy="21" r="4" fill="#C9A227"/>
+    <g fill="none" stroke="#C9A227" stroke-width="3"><circle cx="30" cy="52" r="14"/><circle cx="48" cy="52" r="14"/></g></svg>`,
+
+  throne:`<svg viewBox="0 0 240 170"><rect width="240" height="170" fill="#EFE3CB"/>
+    <rect y="140" width="240" height="30" fill="#9A7A55"/>
+    <rect x="70" y="112" width="100" height="28" fill="#B08A5F"/><rect x="82" y="96" width="76" height="18" fill="#C39C6D"/>
+    <rect x="96" y="72" width="48" height="26" rx="4" fill="#93332F"/>
+    <path d="M120 68V20" stroke="#8E6F52" stroke-width="4"/>
+    <g fill="#FBF6E8" stroke="#C9A227"><path d="M84 30h72l-10 10H94z"/><path d="M90 44h60l-9 10H99z"/><path d="M96 58h48l-8 9h-32z"/></g>
+    <circle cx="120" cy="18" r="5" fill="#C9A227"/></svg>`,
+
+  queen:`<svg viewBox="0 0 240 170"><rect width="240" height="170" fill="#DCE9EA"/>
+    <circle cx="120" cy="88" r="62" fill="#7FA3AE"/>
+    <g fill="#5C7A52"><path d="M74 52c16-6 30 2 40 0s18-10 30-6-8 20-22 22-26-4-36 2-20-12-12-18z"/>
+      <path d="M84 108c14-8 26 4 44 0s26 8 22 16-30 14-46 8-32-16-20-24z"/>
+      <path d="M148 62c10-4 20 4 18 12s-16 10-20 2 0-12 2-14z"/></g>
+    <circle cx="120" cy="88" r="62" fill="none" stroke="#EDE4CE" stroke-width="2"/>
+    <path d="M62 112q40-56 116-40" fill="none" stroke="#C9A227" stroke-width="2.5" stroke-dasharray="6 5"/>
+    <circle cx="62" cy="112" r="6" fill="#C9A227"/><circle cx="178" cy="72" r="6" fill="#C9A227"/></svg>`,
+
+  revolution:`<svg viewBox="0 0 240 170"><rect width="240" height="170" fill="#DDE7EA"/>
+    <rect y="124" width="240" height="46" fill="#7FA3AE"/><rect y="118" width="240" height="10" fill="#D8CBA6"/>
+    <rect x="52" y="76" width="90" height="42" fill="#EDE4CE"/><path d="M40 78 97 46l57 32z" fill="#93332F"/>
+    <g fill="#5E7C86"><rect x="64" y="88" width="16" height="22"/><rect x="90" y="88" width="16" height="22"/><rect x="116" y="88" width="16" height="22"/></g>
+    <g fill="#5C7A52"><path d="M186 118c-4-22 4-40 12-46 8 6 16 24 12 46z"/><rect x="194" y="104" width="6" height="16" fill="#8E6F52"/></g>
+    <rect x="150" y="30" width="66" height="46" rx="3" fill="#FBF6E8" stroke="#B9AE97"/>
+    <g fill="#3B4C42" opacity=".7"><rect x="158" y="38" width="50" height="6"/><rect x="158" y="50" width="34" height="4"/><rect x="158" y="58" width="44" height="4"/><rect x="158" y="66" width="28" height="4"/></g></svg>`,
+
+  abdication:`<svg viewBox="0 0 240 170"><rect width="240" height="170" fill="#E7DCC0"/>
+    <rect x="52" y="18" width="112" height="134" rx="3" fill="#FBF6E8" stroke="#C9BFA6"/>
+    <g fill="#3B4C42" opacity=".6"><rect x="66" y="36" width="84" height="4" rx="2"/><rect x="66" y="48" width="66" height="4" rx="2"/><rect x="66" y="60" width="80" height="4" rx="2"/><rect x="66" y="72" width="52" height="4" rx="2"/><rect x="66" y="84" width="76" height="4" rx="2"/><rect x="66" y="96" width="60" height="4" rx="2"/></g>
+    <path d="M70 122q26-14 52 0" fill="none" stroke="#93332F" stroke-width="2.6"/>
+    <circle cx="146" cy="128" r="11" fill="#93332F" opacity=".85"/>
+    <path d="M188 34l14 14-56 56-18 4 4-18z" fill="#8E6F52"/><path d="M188 34l14 14-8 8-14-14z" fill="#C9A227"/></svg>`,
+
+  compton:`<svg viewBox="0 0 240 170"><rect width="240" height="170" fill="#C6CFD2"/>
+    <rect y="128" width="240" height="42" fill="#7E8F6E"/>
+    <rect x="70" y="80" width="92" height="48" fill="#E4DCC9"/><path d="M58 82 116 46l58 36z" fill="#6E5540"/>
+    <rect x="132" y="46" width="14" height="24" fill="#8A6A54"/>
+    <g fill="#4A5B62"><rect x="84" y="92" width="16" height="20"/><rect x="108" y="92" width="16" height="20"/><rect x="132" y="92" width="16" height="20"/></g>
+    <rect x="106" y="106" width="18" height="22" fill="#6E5540"/>
+    <g stroke="#8FA0A6" stroke-width="2" opacity=".8"><path d="M20 30l-8 22M46 22l-8 22M196 26l-8 22M222 40l-8 22M34 66l-6 18M210 74l-6 18"/></g>
+    <g stroke="#5A6B52" stroke-width="3"><path d="M30 128V92"/><path d="M30 100l-10-10M30 110l10-10"/></g></svg>`,
+
+  voyage:`<svg viewBox="0 0 240 170"><rect width="240" height="170" fill="#CFE0DE"/>
+    <rect y="118" width="240" height="52" fill="#5E7C86"/>
+    <g stroke="#7FA3AE" stroke-width="3"><path d="M10 136h44M70 150h56M158 132h56M40 160h60"/></g>
+    <path d="M44 96h152l-16 30H60z" fill="#2E4750"/><rect x="66" y="72" width="112" height="24" fill="#EDE4CE"/>
+    <g fill="#5E7C86"><rect x="76" y="78" width="12" height="12"/><rect x="96" y="78" width="12" height="12"/><rect x="116" y="78" width="12" height="12"/><rect x="136" y="78" width="12" height="12"/><rect x="156" y="78" width="12" height="12"/></g>
+    <rect x="112" y="46" width="18" height="26" fill="#93332F"/><rect x="112" y="46" width="18" height="8" fill="#EDE4CE"/>
+    <path d="M100 40h12v-16h-12z" fill="#C9A227"/><path d="M106 24V14" stroke="#8E6F52" stroke-width="2"/></svg>`,
+
+  bankaeo:`<svg viewBox="0 0 240 170"><rect width="240" height="170" fill="#E4D7B4"/>
+    <rect y="120" width="240" height="50" fill="#A79A63"/>
+    <g fill="#7D7442" opacity=".6"><circle cx="24" cy="102" r="20"/><circle cx="212" cy="98" r="22"/></g>
+    <rect x="70" y="78" width="96" height="42" fill="#D9CDB0"/>
+    <g stroke="#A9997A" stroke-width="1.4"><path d="M70 90h96M70 102h96M70 114h96"/></g>
+    <path d="M56 80 118 44l62 36z" fill="#9A7A55"/><path d="M118 44l62 36h-14l-48-28z" fill="#846449"/>
+    <g fill="#7C6A4E"><rect x="86" y="88" width="16" height="24"/><rect x="134" y="88" width="16" height="24"/></g>
+    <rect x="110" y="96" width="16" height="24" fill="#6B5540"/>
+    <g stroke="#8A7F4C" stroke-width="3"><path d="M14 146h84M8 160h100M24 134h64"/></g>
+    <g fill="#F2ECDA" stroke="#7D7442"><ellipse cx="192" cy="144" rx="13" ry="8"/><circle cx="203" cy="136" r="5"/><ellipse cx="216" cy="158" rx="10" ry="6"/></g></svg>`,
+
+  mat:`<svg viewBox="0 0 240 170"><rect width="240" height="170" fill="#E7DCC0"/>
+    <rect x="26" y="34" width="188" height="106" fill="#E4D5B7"/>
+    <g fill="#93332F">${[...Array(9)].map((_,j)=>[...Array(16)].map((_,i)=>((i+j)%4<2)?`<rect x="${26+i*12}" y="${34+j*12}" width="12" height="12"/>`:'').join('')).join('')}</g>
+    <rect x="26" y="34" width="188" height="106" fill="none" stroke="#8A5A2B" stroke-width="7"/>
+    <rect x="14" y="26" width="212" height="10" rx="4" fill="#8E6F52"/>
+    <rect x="14" y="138" width="212" height="10" rx="4" fill="#8E6F52"/>
+    <rect x="150" y="80" width="70" height="12" rx="6" fill="#C9A227" stroke="#8A6A2B"/></svg>`,
+
+  return:`<svg viewBox="0 0 240 170"><rect width="240" height="170" fill="#DDE7E4"/>
+    <rect y="126" width="240" height="44" fill="#8FA97A"/>
+    <rect x="60" y="72" width="106" height="54" fill="#EDE4CE"/><path d="M48 74 113 40l65 34z" fill="#8E6F52"/>
+    <g fill="#5E7C86"><rect x="72" y="86" width="16" height="22"/><rect x="96" y="86" width="16" height="22"/><rect x="136" y="86" width="16" height="22"/></g>
+    <rect x="112" y="98" width="18" height="28" fill="#7A5C42"/>
+    <g fill="#5C7A52"><circle cx="22" cy="106" r="18"/><circle cx="216" cy="102" r="20"/></g>
+    <rect x="168" y="112" width="58" height="8" rx="3" fill="#8A5A2B"/>
+    <rect x="168" y="120" width="58" height="18" fill="#C9A227"/>
+    <g stroke="#8A6A2B" stroke-width="2"><path d="M178 120v18M190 120v18M202 120v18M214 120v18"/></g></svg>`,
+
+  passing:`<svg viewBox="0 0 240 170"><rect width="240" height="170" fill="#EFE3CB"/>
+    <rect y="132" width="240" height="38" fill="#D8CBA6"/>
+    <rect x="108" y="72" width="20" height="60" rx="4" fill="#FBF6E8" stroke="#C9BFA6"/>
+    <path d="M118 72V60" stroke="#8E6F52" stroke-width="2"/>
+    <path d="M118 40c8 8 10 14 10 19a10 10 0 0 1-20 0c0-5 2-11 10-19z" fill="#C9A227"/>
+    <g fill="#FBF6E8" stroke="#C9BFA6"><circle cx="70" cy="126" r="8"/><circle cx="84" cy="132" r="7"/><circle cx="58" cy="133" r="6"/>
+      <circle cx="164" cy="128" r="8"/><circle cx="178" cy="133" r="6"/></g>
+    <rect x="30" y="146" width="70" height="14" rx="3" fill="#E4D5B7" stroke="#8A5A2B" stroke-width="2"/>
+    <rect x="146" y="146" width="70" height="14" rx="3" fill="#E4D5B7" stroke="#8A5A2B" stroke-width="2"/></svg>`
+};
+
+const PLACES = [
+  {id:'bangpain', x:120, y:78,  th:'พระราชวังบางปะอิน', en:'Bang Pa-In Palace', yrs:'๒๔๖๑ · 1918',
+   dth:'สถานที่ประกอบพระราชพิธีอภิเษกสมรสกับสมเด็จเจ้าฟ้าประชาธิปกฯ ขณะพระชนมายุ ๑๓ พรรษา',
+   den:'Where she married Prince Prajadhipok at the age of thirteen.',
+   f:[['จังหวัด','พระนครศรีอยุธยา'],['บทบาท','จุดเริ่มต้นของชีวิตคู่']],
+   fen:[['Province','Ayutthaya'],['Role','Where the marriage began']]},
+  {id:'sukhothai', x:300, y:140, th:'วังศุโขทัย', en:'Sukhothai Palace', yrs:'๒๔๖๑–๒๔๗๗, ๒๕๑๑–๒๕๒๗',
+   dth:'ที่ประทับก่อนขึ้นครองราชย์ และเป็นที่ประทับสุดท้าย ตั้งอยู่ริมคลองสามเสน กรุงเทพฯ ช่วงบั้นปลายทรงย้ายกิจการทอเสื่อบางส่วนมาไว้ที่นี่',
+   den:'Her home before the reign and again at the end of her life, beside Khlong Samsen in Bangkok. Part of the mat-weaving operation moved here in her later years.',
+   f:[['เมือง','กรุงเทพมหานคร'],['รวมเวลา','กว่า ๓๐ ปี']],
+   fen:[['City','Bangkok'],['Total','More than 30 years']]},
+  {id:'huahin', x:210, y:250, th:'วังไกลกังวล หัวหิน', en:'Klai Kangwon, Hua Hin', yrs:'๒๔๗๕ · 1932',
+   dth:'ที่ประทับตากอากาศ และเป็นที่ซึ่งทั้งสองพระองค์ทรงทราบข่าวการเปลี่ยนแปลงการปกครองในเช้าวันที่ ๒๔ มิถุนายน',
+   den:'The seaside retreat where the royal couple learned of the revolution on the morning of 24 June 1932.',
+   f:[['จังหวัด','ประจวบคีรีขันธ์'],['เหตุการณ์','๒๔ มิถุนายน ๒๔๗๕']],
+   fen:[['Province','Prachuap Khiri Khan'],['Event','24 June 1932']]},
+  {id:'england', x:470, y:70,  th:'อังกฤษ (เวอร์จิเนีย วอเทอร์ – คอมพ์ตัน)', en:'England (Virginia Water – Compton)', yrs:'๒๔๗๗–๒๔๙๒',
+   dth:'ทรงใช้ชีวิตสามัญชนในชนบทอังกฤษเกือบ ๑๕ ปี ผ่านทั้งการสละราชสมบัติ การสวรรคตของพระราชสวามี และสงครามโลกครั้งที่สอง ทรงทำงานอาสาสมัครช่วยผู้ประสบภัยสงคราม',
+   den:'Nearly fifteen years as a private citizen in the English countryside — through the abdication, her husband\'s death and the Second World War, during which she volunteered in war relief.',
+   f:[['ระยะเวลา','~๑๕ ปี'],['เหตุการณ์','สวรรคต ร.๗ พ.ศ. ๒๔๘๔']],
+   fen:[['Duration','~15 years'],['Event','Death of Rama VII, 1941']]},
+  {id:'srapathum', x:360, y:212, th:'วังสระปทุม', en:'Sra Pathum Palace', yrs:'๒๔๙๒ · 1949',
+   dth:'ที่ประทับชั่วคราวเมื่อแรกเสด็จนิวัตพระนคร พร้อมพระบรมอัฐิพระบาทสมเด็จพระปกเกล้าเจ้าอยู่หัว',
+   den:'Her temporary residence on returning to Bangkok with King Prajadhipok\'s ashes.',
+   f:[['เมือง','กรุงเทพมหานคร'],['ช่วง','ก่อนย้ายไปจันทบุรี']],
+   fen:[['City','Bangkok'],['When','Before moving to Chanthaburi']]},
+  {id:'bankaeo', x:600, y:300, th:'วังสวนบ้านแก้ว', en:'Suan Ban Kaeo', yrs:'๒๔๙๓–๒๕๑๑',
+   dth:'ที่ประทับที่ทรงสร้างเองกลางสวนผลไม้ริมแม่น้ำจันทบุรี ทั้งทรงทำเกษตร เลี้ยงสัตว์ปีก และตั้งโรงทอเสื่อจันทบูร ปัจจุบันอยู่ในพื้นที่มหาวิทยาลัยราชภัฏรำไพพรรณี',
+   den:'The home she built herself among orchards by the Chanthaburi River — farming, poultry, and the reed-mat weaving house. Today it sits within Rambhai Barni Rajabhat University.',
+   f:[['จังหวัด','จันทบุรี'],['สร้าง','๒๐ มิถุนายน ๒๔๙๓'],['ปัจจุบัน','ม.ราชภัฏรำไพพรรณี']],
+   fen:[['Province','Chanthaburi'],['Built','20 June 1950'],['Today','Rambhai Barni Rajabhat Univ.']]}
+];
+
+const ART = [
+  {id:'mat', th:'เสื่อจันทบูร', en:'Chanthaboon reed mat',
+   sth:'งานหัตถกรรมที่ทรงฟื้นฟูจนกลายเป็นของขึ้นชื่อประจำจังหวัด',
+   sen:'The craft she revived into the province\'s signature product.',
+   dth:'ทอจากต้นกกที่ขึ้นตามที่ลุ่มริมแม่น้ำจันทบุรี ตัด ผ่า ย้อมสี ตากแดดจนแห้ง แล้วสอดเข้าเส้นยืนทีละเส้น สมเด็จพระนางเจ้ารำไพพรรณีทรงตั้งโรงทอในวังสวนบ้านแก้ว รับชาวบ้านมาฝึกฝนและทำงาน ทั้งยังทรงคิดแปรรูปเป็นกระเป๋า หมวก และของใช้ เพื่อให้ขายได้ราคาดีขึ้น',
+   den:'Woven from reeds cut in the wetlands along the Chanthaburi River — split, dyed, sun-dried, then threaded one weft at a time. The Queen founded a weaving house at Suan Ban Kaeo, trained villagers, and had the mats made into bags, hats and household goods so they would fetch a better price.'},
+  {id:'grey', th:'พระตำหนักเทา', en:'The Grey Residence',
+   sth:'อาคารประธานของวังสวนบ้านแก้ว',
+   sen:'The principal building of Suan Ban Kaeo.',
+   dth:'พระตำหนักใหญ่ของวังสวนบ้านแก้ว สร้างเป็นเรือนไม้สองชั้นแบบเรียบง่ายกลมกลืนกับสวน แตกต่างจากความหรูหราของวังในกรุงเทพฯ อย่างสิ้นเชิง ปัจจุบันอยู่ในความดูแลของมหาวิทยาลัยราชภัฏรำไพพรรณี และเปิดเป็นแหล่งเรียนรู้',
+   den:'The main residence at Suan Ban Kaeo: a plain two-storey wooden house in keeping with the garden, worlds away from the grandeur of Bangkok palaces. It is now cared for by Rambhai Barni Rajabhat University as a place of learning.'},
+  {id:'letter', th:'พระราชหัตถเลขาสละราชสมบัติ', en:'The abdication letter',
+   sth:'เอกสารที่เปลี่ยนชีวิตทั้งสองพระองค์ พ.ศ. ๒๔๗๗',
+   sen:'The document that changed both their lives, 1935.',
+   dth:'พระราชหัตถเลขาที่พระบาทสมเด็จพระปกเกล้าเจ้าอยู่หัวทรงสละราชสมบัติจากประเทศอังกฤษ ข้อความตอนหนึ่งกลายเป็นถ้อยคำที่ถูกอ้างถึงมากที่สุดในประวัติศาสตร์การเมืองไทย สมเด็จพระนางเจ้ารำไพพรรณีทรงร่วมตัดสินพระราชหฤทัยและทรงอยู่เคียงข้างตลอดกระบวนการ',
+   den:'King Prajadhipok\'s letter of abdication, written from England. One passage became among the most quoted lines in Thai political history. Queen Rambhai Barni shared in the decision and stood beside him throughout.'},
+  {id:'urn', th:'การอัญเชิญพระบรมอัฐิ', en:'Bringing the ashes home',
+   sth:'การเดินทางกลับสยาม พ.ศ. ๒๔๙๒',
+   sen:'The voyage home, 1949.',
+   dth:'หลังสงครามโลกครั้งที่สอง รัฐบาลกราบบังคมทูลเชิญเสด็จนิวัตพระนคร ทรงอัญเชิญพระบรมอัฐิพระบาทสมเด็จพระปกเกล้าเจ้าอยู่หัวลงเรือวิลเลม รอยส์ จากเมืองเซาแทมป์ตัน รัฐบาลอังกฤษจัดกองทหารเกียรติยศส่งเสด็จ ถือเป็นการปิดฉากการพลัดถิ่นนานเกือบสิบห้าปี',
+   den:'After the war the Thai government invited her home. She carried the King\'s ashes aboard the Willem Ruys from Southampton, with a British guard of honour at the quay — closing nearly fifteen years of exile.'},
+  {id:'garden', th:'สวนผลไม้และฟาร์มสัตว์ปีก', en:'The orchard and poultry farm',
+   sth:'เกษตรกรรมในพระราชนิยม',
+   sen:'Farming, by royal preference.',
+   dth:'ในวังสวนบ้านแก้วทรงหักร้างถางพงทำสวนผลไม้ แปลงพืชผัก และเลี้ยงเป็ด ห่าน ไก่ นกหงส์หยก ทรงทดลองวิธีการเกษตรและเผยแพร่ให้ชาวบ้านนำไปใช้ เป็นภาพของพระราชินีที่ต่างจากภาพในราชสำนักโดยสิ้นเชิง',
+   den:'At Suan Ban Kaeo she cleared land into orchards and vegetable plots, and raised ducks, geese, chickens and budgerigars — experimenting with methods and passing them on to villagers. A queen quite unlike the court portrait.'},
+  {id:'foundation', th:'มูลนิธิประชาธิปก–รำไพพรรณี', en:'Prajadhipok–Rambhai Barni Foundation',
+   sth:'พระราชทรัพย์ที่กลายเป็นทุนการศึกษา',
+   sen:'A private fortune turned into scholarships.',
+   dth:'ทรงพระราชทานพระราชทรัพย์ส่วนพระองค์จำนวน ๒,๗๑๕,๐๔๑.๖๘ บาท ตั้งเป็นมูลนิธิเพื่อการศึกษาและสาธารณกุศล สืบเนื่องเจตนารมณ์ที่ทรงสนับสนุนการศึกษาของสตรีมาตั้งแต่ครั้งยังทรงเป็นพระบรมราชินี',
+   den:'She endowed a foundation with 2,715,041.68 baht of her own funds for education and charity — continuing the support for women\'s education she had championed as queen.'}
+];
+
+const QUIZ = [
+  {q:{th:'สมเด็จพระนางเจ้ารำไพพรรณีทรงเป็นพระอัครมเหสีในรัชกาลใด',en:'Queen Rambhai Barni was the consort of which king?'},
+   o:[{th:'รัชกาลที่ ๖',en:'Rama VI'},{th:'รัชกาลที่ ๗',en:'Rama VII'},{th:'รัชกาลที่ ๘',en:'Rama VIII'},{th:'รัชกาลที่ ๙',en:'Rama IX'}],
+   a:1, e:{th:'ทรงเป็นพระอัครมเหสีพระองค์เดียวในพระบาทสมเด็จพระปกเกล้าเจ้าอยู่หัว รัชกาลที่ ๗',
+           en:'She was the sole consort of King Prajadhipok, Rama VII.'}},
+  {q:{th:'งานหัตถกรรมใดที่ทรงฟื้นฟูจนกลายเป็นของขึ้นชื่อเมืองจันท์',en:'Which craft did she revive in Chanthaburi?'},
+   o:[{th:'ผ้าไหมมัดหมี่',en:'Mudmee silk'},{th:'เครื่องเบญจรงค์',en:'Benjarong porcelain'},{th:'เสื่อกกจันทบูร',en:'Chanthaboon reed mats'},{th:'เครื่องถมนคร',en:'Nielloware'}],
+   a:2, e:{th:'ทรงตั้งโรงทอเสื่อกกขึ้นในวังสวนบ้านแก้ว และคิดแปรรูปเป็นกระเป๋า หมวก ของใช้',
+           en:'She set up a reed-mat weaving house at Suan Ban Kaeo and had mats made into bags, hats and household goods.'}},
+  {q:{th:'พระองค์ประทับที่วังสวนบ้านแก้ว จังหวัดจันทบุรี นานเท่าใด',en:'How long did she live at Suan Ban Kaeo in Chanthaburi?'},
+   o:[{th:'๓ ปี',en:'3 years'},{th:'๑๘ ปี',en:'18 years'},{th:'๓๐ ปี',en:'30 years'},{th:'๔๕ ปี',en:'45 years'}],
+   a:1, e:{th:'ประทับตั้งแต่ พ.ศ. ๒๔๙๓ จนถึง พ.ศ. ๒๕๑๑ รวม ๑๘ ปี ก่อนเสด็จกลับวังศุโขทัย',
+           en:'From 1950 to 1968 — eighteen years — before returning to Sukhothai Palace.'}},
+  {q:{th:'เหตุการณ์ ๒๔ มิถุนายน ๒๔๗๕ เกิดขึ้นขณะทั้งสองพระองค์ประทับที่ใด',en:'Where were the royal couple on 24 June 1932?'},
+   o:[{th:'วังศุโขทัย',en:'Sukhothai Palace'},{th:'วังไกลกังวล หัวหิน',en:'Klai Kangwon, Hua Hin'},{th:'พระราชวังบางปะอิน',en:'Bang Pa-In Palace'},{th:'ประเทศอังกฤษ',en:'England'}],
+   a:1, e:{th:'ทรงทราบข่าวการยึดอำนาจของคณะราษฎรขณะประทับ ณ วังไกลกังวล หัวหิน',
+           en:'They received news of the People\'s Party seizing power while at Klai Kangwon in Hua Hin.'}},
+  {q:{th:'พ.ศ. ๒๔๙๒ ทรงเสด็จนิวัตพระนครพร้อมสิ่งใด',en:'What did she bring home in 1949?'},
+   o:[{th:'พระบรมอัฐิรัชกาลที่ ๗',en:'The ashes of Rama VII'},{th:'พระราชลัญจกร',en:'The royal seal'},{th:'ต้นกกพันธุ์ใหม่',en:'A new reed cultivar'},{th:'เครื่องราชกกุธภัณฑ์',en:'The regalia'}],
+   a:0, e:{th:'ทรงอัญเชิญพระบรมอัฐิพระบาทสมเด็จพระปกเกล้าเจ้าอยู่หัวกลับสู่สยามโดยเรือวิลเลม รอยส์',
+           en:'She carried King Prajadhipok\'s ashes back to Siam aboard the Willem Ruys.'}},
+  {q:{th:'ปัจจุบันพื้นที่วังสวนบ้านแก้วอยู่ในความดูแลของหน่วยงานใด',en:'Who looks after the Suan Ban Kaeo site today?'},
+   o:[{th:'กรมศิลปากร',en:'Fine Arts Department'},{th:'สำนักพระราชวัง',en:'Bureau of the Royal Household'},{th:'มหาวิทยาลัยราชภัฏรำไพพรรณี',en:'Rambhai Barni Rajabhat University'},{th:'เทศบาลเมืองจันทบุรี',en:'Chanthaburi Municipality'}],
+   a:2, e:{th:'พระตำหนักต่าง ๆ ตั้งอยู่ในพื้นที่มหาวิทยาลัยราชภัฏรำไพพรรณี จังหวัดจันทบุรี',
+           en:'The residences stand within the campus of Rambhai Barni Rajabhat University, Chanthaburi.'}},
+  {q:{th:'เหตุใดพระองค์จึงทรงถูกเรียกว่า “พระราชินีพระองค์แรกในระบอบประชาธิปไตย”',en:'Why is she called Thailand\'s first queen under democracy?'},
+   o:[{th:'ทรงลงสมัครรับเลือกตั้ง',en:'She stood for election'},{th:'ทรงดำรงพระอิสริยยศต่อเนื่องหลังการเปลี่ยนแปลงการปกครอง ๒๔๗๕',en:'She held the position across the 1932 change to constitutional monarchy'},{th:'ทรงร่างรัฐธรรมนูญ',en:'She drafted the constitution'},{th:'ทรงเป็นประธานรัฐสภา',en:'She chaired parliament'}],
+   a:1, e:{th:'ทรงเป็นสมเด็จพระบรมราชินีอยู่ก่อนและหลังการเปลี่ยนแปลงการปกครอง พ.ศ. ๒๔๗๕ จึงเป็นพระราชินีพระองค์แรกภายใต้ระบอบใหม่',
+           en:'She was queen both before and after 1932, and so the first queen under the constitutional system.'}},
+  {q:{th:'พระองค์เสด็จสวรรคตเมื่อใด',en:'When did she pass away?'},
+   o:[{th:'๒๒ พฤษภาคม ๒๕๒๗',en:'22 May 1984'},{th:'๓๐ พฤษภาคม ๒๔๘๔',en:'30 May 1941'},{th:'๒๐ ธันวาคม ๒๕๐๐',en:'20 December 1957'},{th:'๒ มีนาคม ๒๔๗๗',en:'2 March 1935'}],
+   a:0, e:{th:'เสด็จสวรรคต ณ วังศุโขทัย เมื่อวันที่ ๒๒ พฤษภาคม ๒๕๒๗ สิริพระชนมพรรษา ๗๙ พรรษา',
+           en:'She died at Sukhothai Palace on 22 May 1984, aged 79.'}}
+];
+
+/* ============================================================
+   1 · ภาษา + ธีม
+   ============================================================ */
+let LANG = localStorage.getItem('rb-lang') || 'th';
+const L = o => o ? (o[LANG] ?? o.th) : '';
+
+function applyLang(){
+  document.documentElement.lang = LANG === 'th' ? 'th' : 'en';
+  document.querySelectorAll('[data-th]').forEach(el=>{
+    const v = el.getAttribute(LANG === 'th' ? 'data-th' : 'data-en');
+    if(v != null) el.textContent = v;
+  });
+  langTH.setAttribute('aria-pressed', LANG === 'th');
+  langEN.setAttribute('aria-pressed', LANG === 'en');
+  renderFilters(); renderRail(); renderEvents(); renderMap();
+  showPlace(currentPlace); renderGallery(); renderPatterns(); renderQuiz();
+  if(loomState.total) setStatus(loomState.rows >= loomState.total);
+  syncTheme();
+  localStorage.setItem('rb-lang', LANG);
+}
+langTH.onclick = () => { LANG='th'; applyLang(); };
+langEN.onclick = () => { LANG='en'; applyLang(); };
+
+const themeBtn = document.getElementById('themeBtn');
+const themeBtnM = document.getElementById('themeBtnM');
+const themeLabelM = document.getElementById('themeLabelM');
+const savedTheme = localStorage.getItem('rb-theme');
+if(savedTheme) document.documentElement.dataset.theme = savedTheme;
+else if(matchMedia('(prefers-color-scheme:dark)').matches) document.documentElement.dataset.theme = 'dark';
+/* ไอคอนสลับด้วย CSS — ที่นี่อัปเดตแค่ข้อความกำกับ */
+const syncTheme = () => {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  const label = dark
+    ? (LANG==='th' ? 'เปลี่ยนเป็นโหมดสว่าง' : 'Switch to light mode')
+    : (LANG==='th' ? 'เปลี่ยนเป็นโหมดมืด'  : 'Switch to dark mode');
+  themeBtn.setAttribute('aria-label', label);
+  themeBtnM.setAttribute('aria-label', label);
+  themeLabelM.textContent = dark
+    ? (LANG==='th' ? 'โหมดสว่าง' : 'Light mode')
+    : (LANG==='th' ? 'โหมดมืด'  : 'Dark mode');
+};
+syncTheme();
+const toggleTheme = () => {
+  document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('rb-theme', document.documentElement.dataset.theme);
+  syncTheme(); drawLoom(loomState.rows);
+};
+themeBtn.onclick = toggleTheme;
+themeBtnM.onclick = toggleTheme;
+
+/* nav toggle (mobile) */
+const nav = document.getElementById('nav'), navToggle = document.getElementById('navToggle');
+const mq = matchMedia('(max-width:940px)');
+const syncNav = () => { nav.hidden = mq.matches && navToggle.getAttribute('aria-expanded') !== 'true'; };
+navToggle.onclick = () => { navToggle.setAttribute('aria-expanded', navToggle.getAttribute('aria-expanded') !== 'true'); syncNav(); };
+mq.addEventListener('change', syncNav); syncNav();
+nav.addEventListener('click', e => { if(e.target.tagName === 'A' && mq.matches){ navToggle.setAttribute('aria-expanded','false'); syncNav(); }});
+
+/* ============================================================
+   2 · ลายทอพื้นหลังฮีโร่
+   ============================================================ */
+(function heroWeave(){
+  const warp = document.getElementById('warpG'), weft = document.getElementById('weftG');
+  const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  let html = '';
+  for(let x=0; x<=1200; x+=22) html += `<line x1="${x}" y1="0" x2="${x}" y2="800"/>`;
+  warp.innerHTML = html;
+  html = '';
+  for(let y=0; y<=800; y+=22) html += `<line x1="0" y1="${y}" x2="1200" y2="${y}" class="wf" style="${reduce?'':`stroke-dasharray:1200;stroke-dashoffset:1200;animation:draw .9s var(--ease) ${y/1400}s forwards`}"/>`;
+  weft.innerHTML = html;
+  if(!reduce){
+    const s = document.createElement('style');
+    s.textContent = '@keyframes draw{to{stroke-dashoffset:0}}';
+    document.head.appendChild(s);
+  }
+})();
+
+/* ============================================================
+   3 · เส้นเวลา
+   ============================================================ */
+const filtersEl = document.getElementById('filters');
+const railEl = document.getElementById('rail');
+const eventsEl = document.getElementById('events');
+let activeTheme = 'all';
+
+function renderFilters(){
+  const keys = ['all', ...Object.keys(THEMES)];
+  filtersEl.innerHTML = keys.map(k => {
+    const label = k === 'all' ? (LANG==='th'?'ทั้งหมด':'All') : L(THEMES[k]);
+    return `<button class="chip" data-f="${k}" aria-pressed="${k===activeTheme}">${label}</button>`;
+  }).join('');
+  filtersEl.querySelectorAll('.chip').forEach(b => b.onclick = () => {
+    activeTheme = b.dataset.f; renderFilters(); applyFilter();
+  });
+}
+function applyFilter(){
+  eventsEl.querySelectorAll('.ev').forEach(el => {
+    el.classList.toggle('hide', activeTheme !== 'all' && el.dataset.theme !== activeTheme);
+  });
+  railEl.querySelectorAll('.tl__year').forEach(el => {
+    el.hidden = activeTheme !== 'all' && el.dataset.theme !== activeTheme;
+  });
+}
+function renderRail(){
+  railEl.innerHTML = EVENTS.map((e,i) =>
+    `<button class="tl__year" data-i="${i}" data-theme="${e.theme}">
+       <b>${LANG==='th'?TH_NUM(e.be):e.ce}</b><span>${L(e.t)}</span>
+     </button>`).join('');
+  railEl.querySelectorAll('.tl__year').forEach(b => b.onclick = () => {
+    const t = eventsEl.querySelector(`.ev[data-i="${b.dataset.i}"]`);
+    if(t) t.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth', block:'center'});
+  });
+  applyFilter();
+}
+function renderEvents(){
+  eventsEl.innerHTML = EVENTS.map((e,i) => `
+    <article class="ev" data-i="${i}" data-theme="${e.theme}" id="ev-${e.be}">
+      <div class="ev__meta">
+        <span class="ev__yr">${LANG==='th'?'พ.ศ. '+TH_NUM(e.be):e.ce}</span>
+        <span class="ev__tag">${L(THEMES[e.theme])}</span>
+        <span class="ev__date">${L(e.date)}</span>
+      </div>
+      <h3>${L(e.t)}</h3>
+      <div class="ev__grid">
+        <div class="ev__text">
+          <p>${L(e.d)}</p>
+          ${e.d2 ? `<p>${L(e.d2)}</p>` : ''}
+          ${e.q ? `<p class="ev__q">${L(e.q)}</p>` : ''}
+        </div>
+        <figure class="ev__fig">
+          <div class="ev__art" role="img" aria-label="${LANG==='th'?'ภาพประกอบ: ':'Illustration: '}${L(e.t)}">${EV_ART[e.art] || ''}</div>
+          <figcaption>${LANG==='th'?'สถานที่':'Where'} · ${L(e.where)}</figcaption>
+        </figure>
+      </div>
+    </article>`).join('');
+  observeAll();
+  applyFilter();
+}
+
+/* reveal + rail sync */
+let io;
+function observeAll(){
+  if(io) io.disconnect();
+  io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if(en.isIntersecting){
+        en.target.classList.add('in');
+        if(en.target.classList.contains('ev')){
+          railEl.querySelectorAll('.tl__year').forEach(b =>
+            b.setAttribute('aria-current', b.dataset.i === en.target.dataset.i));
+        }
+      }
+    });
+  }, {rootMargin:'-45% 0px -45% 0px'});
+  document.querySelectorAll('.ev').forEach(el => io.observe(el));
+
+  const io2 = new IntersectionObserver(en => en.forEach(x => x.isIntersecting && x.target.classList.add('in')),
+    {rootMargin:'0px 0px -12% 0px'});
+  document.querySelectorAll('.ev,.reveal').forEach(el => io2.observe(el));
+}
+
+/* nav highlight */
+const sections = [...document.querySelectorAll('section[id]')];
+(function navSpy(){
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if(en.isIntersecting){
+        document.querySelectorAll('.nav a').forEach(a =>
+          a.setAttribute('aria-current', a.getAttribute('href') === '#' + en.target.id));
+      }
+    });
+  }, {rootMargin:'-50% 0px -50% 0px'});
+  sections.forEach(s => obs.observe(s));
+})();
+
+/* ============================================================
+   4 · แผนภาพเส้นทาง
+   ============================================================ */
+const mapEl = document.getElementById('map');
+const placeCard = document.getElementById('placeCard');
+let currentPlace = 'bankaeo';
+
+function renderMap(){
+  const path = PLACES.map((p,i) => `${i?'L':'M'}${p.x} ${p.y}`).join(' ');
+  const nodes = PLACES.map((p,i) => `
+    <g class="node" data-id="${p.id}" role="button" tabindex="0"
+       aria-pressed="${p.id===currentPlace}" aria-label="${L({th:p.th,en:p.en})}">
+      <circle class="halo" cx="${p.x}" cy="${p.y}" r="22" fill="var(--gold)" opacity=".08"/>
+      <circle class="dot" cx="${p.x}" cy="${p.y}" r="9" fill="var(--gold)" stroke="var(--reed)" stroke-width="2"/>
+      <text class="full" x="${p.x}" y="${p.y - 22}" text-anchor="middle">${TH_NUM(i+1)} · ${L({th:p.th,en:p.en})}</text>
+      <text class="num" x="${p.x}" y="${p.y - 20}" text-anchor="middle">${TH_NUM(i+1)}</text>
+    </g>`).join('');
+  mapEl.innerHTML = `
+    <g opacity=".35">
+      ${[...Array(24)].map((_,i)=>`<line x1="${i*32}" y1="0" x2="${i*32}" y2="420" stroke="currentColor" stroke-opacity=".18"/>`).join('')}
+      ${[...Array(14)].map((_,i)=>`<line x1="0" y1="${i*32}" x2="720" y2="${i*32}" stroke="currentColor" stroke-opacity=".18"/>`).join('')}
+    </g>
+    <path d="${path}" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-dasharray="8 7" opacity=".8"/>
+    <g fill="currentColor">${nodes}</g>`;
+  mapEl.querySelectorAll('.node').forEach(n => {
+    const go = () => showPlace(n.dataset.id);
+    n.addEventListener('click', go);
+    n.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); }});
+  });
+  const pn = document.getElementById('placenav');
+  pn.innerHTML = PLACES.map((p,i) =>
+    `<button class="chip" data-id="${p.id}" aria-pressed="${p.id===currentPlace}">${TH_NUM(i+1)} · ${L({th:p.th,en:p.en})}</button>`).join('');
+  pn.querySelectorAll('.chip').forEach(b => b.onclick = () => showPlace(b.dataset.id));
+}
+function showPlace(id){
+  currentPlace = id;
+  const p = PLACES.find(x => x.id === id) || PLACES[0];
+  const facts = LANG === 'th' ? p.f : p.fen;
+  placeCard.innerHTML = `
+    <h3>${LANG==='th'?p.th:p.en}</h3>
+    <p class="card__yrs">${p.yrs}</p>
+    <p>${LANG==='th'?p.dth:p.den}</p>
+    <dl>${facts.map(([k,v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>`;
+  mapEl.querySelectorAll('.node').forEach(n => n.setAttribute('aria-pressed', n.dataset.id === id));
+  document.querySelectorAll('#placenav .chip').forEach(b => b.setAttribute('aria-pressed', b.dataset.id === id));
+}
+
+/* ============================================================
+   5 · กี่ทอเสื่อ
+   ============================================================ */
+const PATTERNS = {
+  plain:{n:{th:'ลายขัด',en:'Plain'},   f:(i,j)=>(i+j)%2===0},
+  twill:{n:{th:'ลายสอง',en:'Twill'},   f:(i,j)=>(i+j)%4<2},
+  basket:{n:{th:'ลายตาราง',en:'Basket'},f:(i,j)=>(Math.floor(i/2)+Math.floor(j/2))%2===0},
+  herring:{n:{th:'ลายก้างปลา',en:'Herringbone'},f:(i,j)=>((Math.floor(i/6)%2? i-j : i+j)%4+4)%4<2}
+};
+const PALETTE = ['#E4D5B7','#C9A227','#93332F','#234C3A','#8A5A2B','#2F5D75','#D9AFA0','#F7F0E1'];
+const loomState = {pattern:'twill', warp:'#E4D5B7', weft:'#93332F', rows:0, total:60, timer:null};
+
+function renderPatterns(){
+  document.getElementById('patterns').innerHTML = Object.entries(PATTERNS).map(([k,v]) => {
+    let cells = '';
+    for(let i=0;i<6;i++) for(let j=0;j<6;j++)
+      if(v.f(i,j)) cells += `<rect x="${i*6}" y="${j*6}" width="6" height="6"/>`;
+    return `<button class="pat" data-p="${k}" aria-pressed="${k===loomState.pattern}">
+      <svg viewBox="0 0 36 36"><rect width="36" height="36" fill="var(--reed-3)"/><g fill="var(--teak)">${cells}</g></svg>
+      <span>${L(v.n)}</span></button>`;
+  }).join('');
+  document.querySelectorAll('.pat').forEach(b => b.onclick = () => {
+    loomState.pattern = b.dataset.p; renderPatterns(); startWeave();
+  });
+}
+function renderSwatches(elId, key){
+  document.getElementById(elId).innerHTML = PALETTE.map(c =>
+    `<button class="sw" data-c="${c}" style="background:${c}" aria-pressed="${loomState[key]===c}" aria-label="สี ${c}"></button>`).join('');
+  document.querySelectorAll(`#${elId} .sw`).forEach(b => b.onclick = () => {
+    loomState[key] = b.dataset.c; renderSwatches(elId, key); startWeave();
+  });
+}
+
+const cv = document.getElementById('loomCanvas'), cx = cv.getContext('2d');
+const COLS = 40;
+function drawLoom(rows){
+  const cell = cv.width / COLS;
+  const totalRows = Math.floor(cv.height / cell);
+  loomState.total = totalRows;
+  cx.clearRect(0,0,cv.width,cv.height);
+  // เส้นยืน (warp) เต็มผืน
+  for(let i=0;i<COLS;i++){
+    cx.fillStyle = loomState.warp;
+    cx.fillRect(i*cell, 0, cell, cv.height);
+    cx.fillStyle = 'rgba(0,0,0,.10)';
+    cx.fillRect(i*cell + cell - 1.5, 0, 1.5, cv.height);
+    cx.fillStyle = 'rgba(255,255,255,.16)';
+    cx.fillRect(i*cell + 1, 0, 1.2, cv.height);
+  }
+  // เส้นนอน (weft) เฉพาะที่อยู่ด้านบน
+  const f = PATTERNS[loomState.pattern].f;
+  for(let j=0;j<Math.min(rows,totalRows);j++){
+    for(let i=0;i<COLS;i++){
+      if(!f(i,j)) continue;
+      cx.fillStyle = loomState.weft;
+      cx.fillRect(i*cell, j*cell, cell, cell);
+      cx.fillStyle = 'rgba(0,0,0,.12)';
+      cx.fillRect(i*cell, j*cell + cell - 1.5, cell, 1.5);
+      cx.fillStyle = 'rgba(255,255,255,.14)';
+      cx.fillRect(i*cell, j*cell + 1, cell, 1.2);
+    }
+  }
+  // ขอบเสื่อ
+  cx.strokeStyle = 'rgba(0,0,0,.25)'; cx.lineWidth = 6;
+  cx.strokeRect(3,3,cv.width-6,cv.height-6);
+}
+function startWeave(){
+  clearInterval(loomState.timer);
+  const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(reduce){ loomState.rows = 999; drawLoom(999); setProgress(1); setStatus(true); return; }
+  loomState.rows = 0;
+  setStatus(false);
+  loomState.timer = setInterval(() => {
+    loomState.rows++;
+    drawLoom(loomState.rows);
+    setProgress(loomState.rows / loomState.total);
+    if(loomState.rows >= loomState.total){ clearInterval(loomState.timer); setStatus(true); }
+  }, 45);
+}
+const setProgress = p => document.getElementById('prog').style.width = Math.min(100, p*100) + '%';
+function setStatus(done){
+  const s = document.getElementById('loomStatus');
+  const n = loomState.total;
+  s.textContent = done
+    ? (LANG==='th' ? `ทอเสร็จแล้ว — ${TH_NUM(n)} เส้นนอน` : `Finished — ${n} wefts`)
+    : (LANG==='th' ? 'กำลังทอ…' : 'Weaving…');
+}
+document.getElementById('weaveBtn').onclick = startWeave;
+document.getElementById('saveBtn').onclick = () => {
+  const a = document.createElement('a');
+  a.download = 'chanthaboon-mat.png';
+  a.href = cv.toDataURL('image/png');
+  a.click();
+};
+
+/* ============================================================
+   6 · ห้องจัดแสดง
+   ============================================================ */
+const ART_SVG = {
+  mat:`<svg viewBox="0 0 200 150"><rect width="200" height="150" fill="#E4D5B7"/>
+    <g>${[...Array(13)].map((_,j)=>[...Array(17)].map((_,i)=>((i+j)%4<2)?`<rect x="${i*12}" y="${j*12}" width="12" height="12" fill="#93332F"/>`:'').join('')).join('')}</g>
+    <rect x="4" y="4" width="192" height="142" fill="none" stroke="#8A5A2B" stroke-width="6"/></svg>`,
+  grey:`<svg viewBox="0 0 200 150"><rect width="200" height="150" fill="#CFE0DE"/>
+    <rect y="112" width="200" height="38" fill="#7E9A6B"/>
+    <rect x="48" y="62" width="104" height="52" fill="#D5D2C8"/>
+    <path d="M38 64 100 30 162 64z" fill="#8E6F52"/>
+    <g fill="#5E7C86"><rect x="60" y="76" width="16" height="26"/><rect x="86" y="76" width="16" height="26"/><rect x="112" y="76" width="16" height="26"/></g>
+    <rect x="94" y="92" width="14" height="22" fill="#7A5C42"/>
+    <g fill="#5C7A52"><circle cx="24" cy="104" r="18"/><circle cx="176" cy="100" r="20"/></g></svg>`,
+  letter:`<svg viewBox="0 0 200 150"><rect width="200" height="150" fill="#EDE4CE"/>
+    <rect x="42" y="18" width="116" height="120" fill="#FBF7EC" stroke="#C9BFA6"/>
+    <g fill="#3B4C42" opacity=".65">${[...Array(9)].map((_,i)=>`<rect x="56" y="${36+i*11}" width="${88-(i%3)*16}" height="3" rx="1.5"/>`).join('')}</g>
+    <path d="M60 122q22-12 44 0" stroke="#93332F" stroke-width="2.4" fill="none"/>
+    <circle cx="140" cy="118" r="12" fill="#93332F" opacity=".85"/></svg>`,
+  urn:`<svg viewBox="0 0 200 150"><rect width="200" height="150" fill="#B9CBD3"/>
+    <path d="M0 108q50 12 100 0t100 0v42H0z" fill="#5E7C86"/>
+    <path d="M52 92h96l-12 16H64z" fill="#3B4C42"/><rect x="70" y="60" width="60" height="32" fill="#EDE4CE"/>
+    <rect x="84" y="44" width="32" height="18" fill="#D6AE4E"/><path d="M100 30l10 14H90z" fill="#A87C21"/>
+    <g stroke="#EDE4CE" stroke-width="2" opacity=".8"><path d="M20 76h20M160 76h20"/></g></svg>`,
+  garden:`<svg viewBox="0 0 200 150"><rect width="200" height="150" fill="#DCE7CE"/>
+    <rect y="96" width="200" height="54" fill="#A79A63"/>
+    <g fill="#4E6B3F"><circle cx="40" cy="70" r="26"/><circle cx="150" cy="62" r="30"/><circle cx="104" cy="78" r="20"/></g>
+    <g fill="#93332F"><circle cx="34" cy="66" r="4"/><circle cx="48" cy="78" r="4"/><circle cx="146" cy="58" r="4"/><circle cx="158" cy="72" r="4"/></g>
+    <g stroke="#8A7F4C" stroke-width="3"><path d="M10 122h80M10 136h110"/></g>
+    <g fill="#FBF7EC" stroke="#7D7442"><ellipse cx="150" cy="122" rx="14" ry="9"/><circle cx="162" cy="112" r="5"/></g></svg>`,
+  foundation:`<svg viewBox="0 0 200 150"><rect width="200" height="150" fill="#E6DCC4"/>
+    <rect x="34" y="60" width="132" height="12" fill="#234C3A"/>
+    <path d="M100 32 172 60H28z" fill="#234C3A"/>
+    <g fill="#8A5A2B"><rect x="52" y="72" width="14" height="46"/><rect x="86" y="72" width="14" height="46"/><rect x="120" y="72" width="14" height="46"/></g>
+    <rect x="34" y="118" width="132" height="14" fill="#234C3A"/>
+    <g fill="#D6AE4E"><circle cx="100" cy="48" r="6"/></g></svg>`
+};
+function renderGallery(){
+  document.getElementById('gallery-grid').innerHTML = ART.map(a => `
+    <button class="art" data-id="${a.id}">
+      <span class="art__img">${ART_SVG[a.id]}</span>
+      <span class="art__body">
+        <h3>${LANG==='th'?a.th:a.en}</h3>
+        <p>${LANG==='th'?a.sth:a.sen}</p>
+        <span class="art__more">${LANG==='th'?'อ่านป้ายคำบรรยาย →':'Read the label →'}</span>
+      </span>
+    </button>`).join('');
+  document.querySelectorAll('.art').forEach(b => b.onclick = () => openModal(b.dataset.id));
+}
+const modal = document.getElementById('modal');
+function openModal(id){
+  const a = ART.find(x => x.id === id);
+  document.getElementById('modalImg').innerHTML = ART_SVG[id];
+  document.getElementById('modalTitle').textContent = LANG==='th'?a.th:a.en;
+  document.getElementById('modalText').textContent = LANG==='th'?a.dth:a.den;
+  lastFocus = document.activeElement;
+  modal.showModal();
+  document.getElementById('modalClose').focus();
+}
+let lastFocus = null;
+document.getElementById('modalClose').onclick = () => modal.close();
+modal.addEventListener('click', e => { if(e.target === modal) modal.close(); });
+modal.addEventListener('close', () => { if(lastFocus) lastFocus.focus(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && modal.open) modal.close(); });
+
+/* ============================================================
+   7 · เกม
+   ============================================================ */
+const quizEl = document.getElementById('quiz');
+let qi = 0, score = 0, answered = false;
+
+function renderQuiz(){
+  if(qi >= QUIZ.length){ renderScore(); return; }
+  const q = QUIZ[qi];
+  quizEl.innerHTML = `
+    <div class="quiz__head">
+      <span>${LANG==='th'?`ข้อ ${TH_NUM(qi+1)} จาก ${TH_NUM(QUIZ.length)}`:`Question ${qi+1} of ${QUIZ.length}`}</span>
+      <span>${LANG==='th'?`คะแนน ${TH_NUM(score)}`:`Score ${score}`}</span>
+    </div>
+    <h3 class="quiz__q">${L(q.q)}</h3>
+    <div class="opts">${q.o.map((o,i)=>`<button class="opt" data-i="${i}"><b>${'กขคง'[i]||i+1}</b><span>${L(o)}</span></button>`).join('')}</div>
+    <div id="explain"></div>
+    <div class="quiz__foot">
+      <div class="dots">${QUIZ.map((_,i)=>`<i class="${i<qi?'done':i===qi?'now':''}"></i>`).join('')}</div>
+      <button class="btn btn--solid" id="nextBtn" hidden>${LANG==='th'?'ข้อต่อไป →':'Next →'}</button>
+    </div>`;
+  answered = false;
+  quizEl.querySelectorAll('.opt').forEach(b => b.onclick = () => answer(+b.dataset.i));
+}
+function answer(i){
+  if(answered) return;
+  answered = true;
+  const q = QUIZ[qi];
+  const opts = quizEl.querySelectorAll('.opt');
+  opts.forEach((b,k) => {
+    b.disabled = true;
+    if(k === q.a) b.classList.add('correct');
+    else if(k === i) b.classList.add('wrong');
+  });
+  if(i === q.a) score++;
+  document.getElementById('explain').innerHTML =
+    `<p class="explain">${i===q.a ? (LANG==='th'?'ถูกต้อง · ':'Correct · ') : (LANG==='th'?'ยังไม่ใช่ · ':'Not quite · ')}${L(q.e)}</p>`;
+  const nb = document.getElementById('nextBtn');
+  nb.hidden = false; nb.focus();
+  nb.onclick = () => { qi++; renderQuiz(); };
+  quizEl.querySelector('.quiz__head').firstElementChild.nextElementSibling.textContent =
+    LANG==='th' ? `คะแนน ${TH_NUM(score)}` : `Score ${score}`;
+}
+function renderScore(){
+  const pct = score / QUIZ.length;
+  const msg = pct === 1 ? {th:'เต็ม! คุณอ่านครบทุกห้องจริง ๆ',en:'Perfect — you read every room.'}
+            : pct >= .6 ? {th:'เก่งมาก ลองกลับไปอ่านห้องที่พลาดดู',en:'Well done — revisit the rooms you missed.'}
+            : {th:'ไม่เป็นไร ลองเลื่อนขึ้นไปอ่านเส้นเวลาอีกรอบ',en:'No worries — scroll back to the timeline and try again.'};
+  quizEl.innerHTML = `<div class="score">
+    <span class="score__n">${LANG==='th'?TH_NUM(score):score}/${LANG==='th'?TH_NUM(QUIZ.length):QUIZ.length}</span>
+    <p>${L(msg)}</p>
+    <button class="btn btn--solid" id="againBtn">${LANG==='th'?'เล่นอีกครั้ง':'Play again'}</button>
+  </div>`;
+  document.getElementById('againBtn').onclick = () => { qi=0; score=0; renderQuiz(); };
+}
+
+/* ============================================================
+   8 · เทียบภาพ อดีต–ปัจจุบัน
+   ============================================================ */
+(function compare(){
+  const box = document.getElementById('compare'), range = document.getElementById('cmpRange');
+  const set = v => box.style.setProperty('--x', v + '%');
+  set(50);
+  range.addEventListener('input', () => set(range.value));
+  const move = e => {
+    const r = box.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 100;
+    range.value = Math.max(0, Math.min(100, x)); set(range.value);
+  };
+  box.addEventListener('pointerdown', e => {
+    box.setPointerCapture(e.pointerId); move(e);
+    box.addEventListener('pointermove', move);
+  });
+  box.addEventListener('pointerup', () => box.removeEventListener('pointermove', move));
+  box.addEventListener('pointercancel', () => box.removeEventListener('pointermove', move));
+})();
+
+/* ============================================================
+   9 · เริ่มต้น
+   ============================================================ */
+renderSwatches('warpSw','warp');
+renderSwatches('weftSw','weft');
+applyLang();
+showPlace('bankaeo');
+drawLoom(0);
+const loomIO = new IntersectionObserver((en,obs) => {
+  if(en[0].isIntersecting){ startWeave(); obs.disconnect(); }
+}, {threshold:.35});
+loomIO.observe(document.getElementById('loom'));
+</script>
+</body>
+</html>
