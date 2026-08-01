@@ -88,10 +88,6 @@ button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
   backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .topbar__in{width:var(--shell);margin-inline:auto;display:flex;align-items:center;gap:var(--gap);min-height:66px}
 .brand{display:flex;align-items:center;gap:.65rem;text-decoration:none;flex:0 0 auto}
-.brand__mark{width:42px;height:52px;background:var(--green-solid);border-radius:6px 6px 22px 22px;
-  display:grid;place-items:center;position:relative;box-shadow:var(--shadow)}
-.brand__mark::after{content:"";position:absolute;bottom:-9px;left:50%;translate:-50% 0;border:6px solid transparent;border-top-color:var(--green-solid)}
-.brand__mark span{font-family:var(--font-display);font-size:1.35rem;color:var(--gold-lite);line-height:1}
 .brand__txt{display:grid;gap:.1rem;line-height:1.2}
 .brand__txt b{font-family:var(--font-display);font-size:.96rem;font-weight:500;letter-spacing:.01em}
 .brand__txt small{font-family:var(--font-body);font-size:.68rem;color:var(--text-2);letter-spacing:.01em}
@@ -147,13 +143,12 @@ html[data-theme="dark"] .lang button[aria-pressed="true"]{background:var(--gold)
     font-size:var(--step-0);color:var(--text-2)}
   .nav__theme:hover{color:var(--text)}
   .nav__theme svg{flex:0 0 auto;width:20px;height:20px;fill:currentColor}
-  .brand{order:0;flex:0 0 auto}
+  .brand{display:none}
   .tools{order:1;flex:1;justify-content:flex-end;margin-inline-start:0}
   .nav{position:absolute;top:100%;left:0;right:0;background:var(--reed-2);border-bottom:1px solid var(--line);
     flex-direction:column;padding:var(--pad);gap:.2rem;margin:0}
   .nav[hidden]{display:none}
   .nav a{font-size:var(--step-0);padding:.6em .4em}
-  .brand__txt{display:none}
 }
 
 /* ---------- HERO ---------- */
@@ -178,7 +173,6 @@ html[data-theme="dark"] .hero h1 em{color:var(--gold-lite)}
 .btn[hidden]{display:none}
 html[data-theme="dark"] .btn--solid{background:var(--gold);color:#14201A;border-color:var(--gold)}
 html[data-theme="dark"] .btn--ghost{border-color:var(--line)}
-html[data-theme="dark"] .brand__mark{box-shadow:inset 0 0 0 1px var(--line)}
 .btn--ghost{border-color:var(--line)}
 .btn--ghost:hover{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 12%,transparent)}
 .portrait{position:relative}
@@ -193,8 +187,11 @@ html[data-theme="dark"] .brand__mark{box-shadow:inset 0 0 0 1px var(--line)}
 .sec--tint{background:var(--reed-2)}
 .sec--deep{background:var(--green-solid);color:var(--reed);border-color:rgba(238,227,204,.14)}
 .sec--deep .sechead__no,.sec--deep .lead{color:rgba(238,227,204,.72)}
-.sechead{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--gap);align-items:start;margin-bottom:clamp(2rem,4vh,3.4rem)}
-.sechead__no{font-family:var(--font-display);font-size:var(--step-1);color:var(--teak);padding-top:.3em;font-variant-numeric:tabular-nums}
+/* เลขหมวดวางเหนือหัวเรื่อง ล้อกับ .eyebrow ในฮีโร่ */
+.sechead{display:grid;gap:.6rem;margin-bottom:clamp(2rem,4vh,3.4rem)}
+.sechead__no{display:flex;align-items:center;gap:1rem;font-family:var(--font-display);font-size:var(--step-2);
+  font-weight:600;line-height:1;letter-spacing:.1em;color:var(--teak);font-variant-numeric:tabular-nums}
+.sechead__no::after{content:"";flex:0 0 60px;height:2px;background:currentColor;opacity:.5}
 .sechead h2{font-size:var(--step-3);font-weight:400;max-width:20ch}
 .lead{margin-top:1rem;max-width:62ch;color:var(--text-2);font-size:var(--step-0)}
 
@@ -364,9 +361,17 @@ dialog::backdrop{background:rgba(14,31,23,.6);backdrop-filter:blur(3px)}
 .foot__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap)}
 .foot h3{font-size:var(--step-1);font-weight:400;margin-bottom:.8rem}
 .foot ul{margin:0;padding:0;list-style:none;display:grid;gap:.5rem;font-size:var(--step--1);opacity:.85}
-.foot__note{margin-top:2.5rem;padding-top:1.4rem;border-top:1px solid rgba(238,227,204,.2);font-size:.78rem;opacity:.7;max-width:75ch}
-.foot__credit{margin-top:1.1rem;font-size:.8rem;display:flex;align-items:baseline;gap:.5rem;opacity:.9}
+/* แถวล่างสุด: หมายเหตุซ้าย · เครดิตขวา ที่ว่างจึงถูกใช้โดยไม่ต้องยืดบรรทัดให้อ่านยาก */
+.foot__bottom{margin-top:2.5rem;padding-top:1.4rem;border-top:1px solid rgba(238,227,204,.2);
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.8rem var(--gap);align-items:start}
+.foot__note{margin:0;font-size:.78rem;opacity:.7;max-width:75ch}
+.foot__credit{margin:0;font-size:.8rem;display:flex;align-items:baseline;justify-content:flex-end;
+  gap:.5rem;white-space:nowrap;opacity:.9}
 .foot__credit b{font-family:var(--font-display);font-weight:500;letter-spacing:.04em;color:var(--gold-lite)}
+@media (max-width:700px){
+  .foot__bottom{grid-template-columns:1fr}
+  .foot__credit{justify-content:flex-start}
+}
 
 /* ---------- misc ---------- */
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
@@ -387,7 +392,6 @@ dialog::backdrop{background:rgba(14,31,23,.6);backdrop-filter:blur(3px)}
 <header class="topbar">
   <div class="topbar__in">
     <a class="brand" href="#top">
-      <span class="brand__mark" aria-hidden="true"><span>ร</span></span>
       <span class="brand__txt">
         <b data-th="ทอชีวิตเป็นผืนเสื่อ" data-en="A Life Woven">ทอชีวิตเป็นผืนเสื่อ</b>
         <small data-th="สมเด็จพระนางเจ้ารำไพพรรณี" data-en="Queen Rambhai Barni">สมเด็จพระนางเจ้ารำไพพรรณี</small>
@@ -733,8 +737,10 @@ dialog::backdrop{background:rgba(14,31,23,.6);backdrop-filter:blur(3px)}
         </ul>
       </div>
     </div>
-    <p class="foot__note" data-th="ข้อมูลเรียบเรียงจากแหล่งอ้างอิงข้างต้น วันเวลาบางแห่งอาจต่างกันตามการนับปีปฏิทินเก่า (ปีใหม่ ๑ เมษายน) หากพบข้อคลาดเคลื่อนโปรดตรวจสอบกับเอกสารต้นทาง" data-en="Compiled from the sources above. Some dates differ between the old Thai calendar (year starting 1 April) and the modern one; please check primary sources for precision.">ข้อมูลเรียบเรียงจากแหล่งอ้างอิงข้างต้น วันเวลาบางแห่งอาจต่างกันตามการนับปีปฏิทินเก่า (ปีใหม่ ๑ เมษายน) หากพบข้อคลาดเคลื่อนโปรดตรวจสอบกับเอกสารต้นทาง</p>
-    <p class="foot__credit"><span data-th="ผู้พัฒนาโดย" data-en="Developed by">ผู้พัฒนาโดย</span> <b>jintawat-n</b></p>
+    <div class="foot__bottom">
+      <p class="foot__note" data-th="ข้อมูลเรียบเรียงจากแหล่งอ้างอิงข้างต้น วันเวลาบางแห่งอาจต่างกันตามการนับปีปฏิทินเก่า (ปีใหม่ ๑ เมษายน) หากพบข้อคลาดเคลื่อนโปรดตรวจสอบกับเอกสารต้นทาง" data-en="Compiled from the sources above. Some dates differ between the old Thai calendar (year starting 1 April) and the modern one; please check primary sources for precision.">ข้อมูลเรียบเรียงจากแหล่งอ้างอิงข้างต้น วันเวลาบางแห่งอาจต่างกันตามการนับปีปฏิทินเก่า (ปีใหม่ ๑ เมษายน) หากพบข้อคลาดเคลื่อนโปรดตรวจสอบกับเอกสารต้นทาง</p>
+      <p class="foot__credit"><span data-th="ผู้พัฒนาโดย" data-en="Developed by">ผู้พัฒนาโดย</span> <b>jintawat-n</b></p>
+    </div>
   </div>
 </footer>
 
